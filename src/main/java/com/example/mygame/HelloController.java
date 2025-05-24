@@ -2,8 +2,13 @@ package com.example.mygame;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 
 public class HelloController {
+
+    @FXML
+    private BorderPane helloView;
+
     @FXML
     private Label welcomeText;
 
