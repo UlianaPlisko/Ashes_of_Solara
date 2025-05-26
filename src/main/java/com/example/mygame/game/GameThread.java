@@ -1,4 +1,4 @@
-package com.example.mygame.utils;
+package com.example.mygame.game;
 
 public class GameThread extends Thread {
 

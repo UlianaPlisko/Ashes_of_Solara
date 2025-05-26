@@ -1,6 +1,5 @@
-package com.example.mygame.utils;
+package com.example.mygame.game;
 
-import com.example.mygame.game.GameController;
 import javafx.animation.AnimationTimer;
 
 public class GameLoop extends AnimationTimer {

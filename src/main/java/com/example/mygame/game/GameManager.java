@@ -1,9 +1,6 @@
 package com.example.mygame.game;
 
-import com.example.mygame.utils.GameLoop;
-import com.example.mygame.utils.GameThread;
 import com.example.mygame.utils.InternetMonitor;
-import lombok.Setter;
 
 public class GameManager {
     private static GameLoop gameLoop;

@@ -1,15 +1,9 @@
 package com.example.mygame.utils;
 
-import com.example.mygame.HelloApplication;
-import com.example.mygame.switcher.SwitchPageInterface;
+import com.example.mygame.game.GameThread;
+import com.example.mygame.utils.switcher.SwitchPageInterface;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

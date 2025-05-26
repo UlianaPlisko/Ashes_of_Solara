@@ -2,10 +2,10 @@ package com.example.mygame.login;
 
 import com.example.mygame.game.GameController;
 import com.example.mygame.game.GameManager;
-import com.example.mygame.switcher.SwitchPage;
-import com.example.mygame.switcher.SwitchPageInterface;
-import com.example.mygame.utils.GameLoop;
-import com.example.mygame.utils.GameThread;
+import com.example.mygame.utils.switcher.SwitchPage;
+import com.example.mygame.utils.switcher.SwitchPageInterface;
+import com.example.mygame.game.GameLoop;
+import com.example.mygame.game.GameThread;
 import com.example.mygame.utils.InternetMonitor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

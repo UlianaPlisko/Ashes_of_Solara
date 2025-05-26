@@ -2,10 +2,6 @@ package com.example.mygame;
 
 import com.example.mygame.game.GameManager;
 import com.example.mygame.login.LoginController;
-import com.example.mygame.switcher.SwitchPage;
-import com.example.mygame.utils.GameLoop;
-import com.example.mygame.utils.GameThread;
-import com.example.mygame.utils.InternetMonitor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -1,17 +1,17 @@
 package com.example.mygame.game;
 
-import com.example.mygame.utils.GameLoop;
+import com.example.mygame.game.player.Player;
 import com.example.mygame.utils.camera.Camera;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
-import java.util.Objects;
 
 public class GameController {
 
@@ -25,10 +25,9 @@ public class GameController {
     private GraphicsContext gc;
     private Image mapImage;
     private Camera camera;
+    private Player player;
 
     private GameLoop gameLoop;
-
-    private double playerX = 1000, playerY = 1200;
 
     public void initialize() {
         if (gameCanvas == null) {
@@ -49,14 +48,13 @@ public class GameController {
             return;
         }
 
-        playerX = mapImage.getWidth() / 2;
-        playerY = mapImage.getHeight() / 2;
+        player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
 
         camera = new Camera(gameCanvas.getWidth(), gameCanvas.getHeight());
-        camera.centerOn(playerX, playerY);
+        camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
 
         gameCanvas.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -70,11 +68,44 @@ public class GameController {
             render();
         });
 
+        // Wait for the Canvas to be added to a Scene
+        gameCanvas.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnKeyPressed(event -> {
+                    KeyCode code = event.getCode();
+                    switch (code) {
+                        case LEFT:
+                        case A:
+                            player.moveLeft();
+                            break;
+                        case RIGHT:
+                        case D:
+                            player.moveRight();
+                            break;
+                        case UP:
+                        case W:
+                            player.moveUp();
+                            break;
+                        case DOWN:
+                        case S:
+                            player.moveDown();
+                            break;
+                    }
+                    update();
+                    render();
+                });
+            }
+        });
+
+        // Ensure canvas is focusable to receive key events
+        gameCanvas.setFocusTraversable(true);
+        gameCanvas.requestFocus();
+
         render();
     }
 
     public void update() {
-        camera.centerOn(playerX, playerY);
+        camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
     }
 
@@ -93,8 +124,8 @@ public class GameController {
                 0, 0, gameCanvas.getWidth(), gameCanvas.getHeight()
         );
 
-        double screenX = playerX - camera.getX();
-        double screenY = playerY - camera.getY();
+        double screenX = player.getX() - camera.getX();
+        double screenY = player.getY() - camera.getY();
 
         gc.setFill(Color.RED);
         gc.fillOval(screenX - 10, screenY - 10, 20, 20);

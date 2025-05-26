@@ -1,4 +1,4 @@
-package com.example.mygame.switcher;
+package com.example.mygame.utils.switcher;
 
 import javafx.scene.layout.BorderPane;
 
