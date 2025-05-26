@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 public class HelloController {
 
     @FXML
-    private BorderPane helloView;
+    private BorderPane mainPage;
 
     @FXML
     private Label welcomeText;

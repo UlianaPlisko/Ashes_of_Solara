@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.canvas.Canvas?>
+<BorderPane fx:id="gamePage" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.mygame.game.GameController">
+    <center>
+        <Canvas fx:id="gameCanvas" width="800" height="600" />
+    </center>
+    <top>
+        <Label fx:id="healthLabel" text="Health: 100" />
+    </top>
+</BorderPane>

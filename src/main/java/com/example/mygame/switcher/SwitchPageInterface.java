@@ -6,6 +6,8 @@ public interface SwitchPageInterface {
 
     void goMainMenu(BorderPane anchorPane);
 
+    void goGame(BorderPane anchorPane);
+
     void goLogin(BorderPane anchorPane);
 
     void goRegister(BorderPane anchorPane);
