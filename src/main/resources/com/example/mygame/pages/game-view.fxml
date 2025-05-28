@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.canvas.Canvas?>
-<BorderPane fx:id="gamePage" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.mygame.game.GameController">
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="gamePage" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mygame.game.GameController">
     <center>
-        <Canvas fx:id="gameCanvas" width="800" height="600" />
+        <StackPane fx:id="canvasContainer">
+            <Canvas fx:id="gameCanvas" height="600" width="800" />
+            <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="100.0" spacing="20">
+                <Label fx:id="dayLabel" text="Day 1" />
+                <Label fx:id="healthLabel" text="Health" />
+                <Label fx:id="hungerLabel" text="Hunger" />
+                <Label fx:id="sanityLabel" text="Sanity" />
+            </HBox>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="100.0" spacing="20">
+                <Button fx:id="settingsButton"  prefHeight="46.0" prefWidth="94.0" text="Settings" />
+            </HBox>
+            <VBox fx:id="dialogOverlay" alignment="CENTER" spacing="10" visible="false" managed="false">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Menu"/>
+                <Button fx:id="viewPlayersButton" text="View Players"/>
+                <Button fx:id="togglePauseButton" text="Toggle Pause"/>
+                <Button fx:id="pauseServerButton" text="Pause Server"/>
+                <Button fx:id="serverCommandsButton" text="Server Commands"/>
+                <Button fx:id="settingsButtonDialog" text="Settings"/>
+                <Button fx:id="reportIssueButton" text="Report an Issue"/>
+                <Button fx:id="disconnectButton" text="Disconnect"/>
+                <Button fx:id="closeButton" text="Close"/>
+            </VBox>
+        </StackPane>
     </center>
-    <top>
-        <Label fx:id="healthLabel" text="Health: 100" />
-    </top>
 </BorderPane>

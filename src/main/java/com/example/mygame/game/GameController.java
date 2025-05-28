@@ -5,10 +5,13 @@ import com.example.mygame.utils.camera.Camera;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -16,11 +19,41 @@ import java.net.URL;
 public class GameController {
 
     @FXML
+    Label dayLabel;
+    @FXML
     BorderPane gamePage;
     @FXML
     Canvas gameCanvas;
     @FXML
     Label healthLabel;
+    @FXML
+    StackPane canvasContainer;
+    @FXML
+    Label sanityLabel;
+    @FXML
+    Label hungerLabel;
+    @FXML
+    Button settingsButton;
+
+    @FXML
+    private VBox dialogOverlay;
+
+    @FXML
+    private Button viewPlayersButton;
+    @FXML
+    private Button togglePauseButton;
+    @FXML
+    private Button pauseServerButton;
+    @FXML
+    private Button serverCommandsButton;
+    @FXML
+    private Button settingsButtonDialog;
+    @FXML
+    private Button reportIssueButton;
+    @FXML
+    private Button disconnectButton;
+    @FXML
+    private Button closeButton;
 
     private GraphicsContext gc;
     private Image mapImage;
@@ -36,7 +69,7 @@ public class GameController {
         }
         gc = gameCanvas.getGraphicsContext2D();
         try {
-            URL resource = getClass().getResource("/com/example/mygame/img/dessert_background.png");
+            URL resource = getClass().getResource("/com/example/mygame/img/dessert_test.png");
             if (resource == null) {
                 System.err.println("Image resource not found!");
                 return;
@@ -102,6 +135,16 @@ public class GameController {
         gameCanvas.requestFocus();
 
         render();
+
+        settingsButton.setOnAction(event -> {
+            dialogOverlay.setVisible(true);
+            dialogOverlay.setManaged(true);
+        });
+
+        closeButton.setOnAction(event -> {
+            dialogOverlay.setVisible(false);
+            dialogOverlay.setManaged(false);
+        });
     }
 
     public void update() {
