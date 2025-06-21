@@ -1,7 +1,14 @@
 package com.example.mygame.game;
 
+import com.example.mygame.game.Objects.GameObject;
+import com.example.mygame.game.Objects.Tree.Renderable;
+import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.game.player.Player;
+import com.example.mygame.game.player.PlayerConstants;
 import com.example.mygame.utils.camera.Camera;
+import com.example.mygame.utils.switcher.SwitchPage;
+import com.example.mygame.utils.switcher.SwitchPageInterface;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,6 +22,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class GameController {
 
@@ -37,13 +47,6 @@ public class GameController {
 
     @FXML
     private VBox dialogOverlay;
-
-    @FXML
-    private Button viewPlayersButton;
-    @FXML
-    private Button togglePauseButton;
-    @FXML
-    private Button pauseServerButton;
     @FXML
     private Button serverCommandsButton;
     @FXML
@@ -59,6 +62,8 @@ public class GameController {
     private Image mapImage;
     private Camera camera;
     private Player player;
+    private List<GameObject> gameObjects = new ArrayList<>();
+    private SwitchPageInterface pageSwitch;
 
     private GameLoop gameLoop;
 
@@ -81,7 +86,14 @@ public class GameController {
             return;
         }
 
+        pageSwitch = new SwitchPage();
+
         player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
+        Tree tree1 = new Tree(player.getX() + 100, player.getY());  // Place near player
+        Tree tree2 = new Tree(player.getX() - 200, player.getY() + 150);
+
+        gameObjects.add(tree1);
+        gameObjects.add(tree2);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
@@ -101,7 +113,6 @@ public class GameController {
             render();
         });
 
-        // Wait for the Canvas to be added to a Scene
         gameCanvas.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(event -> {
@@ -130,7 +141,6 @@ public class GameController {
             }
         });
 
-        // Ensure canvas is focusable to receive key events
         gameCanvas.setFocusTraversable(true);
         gameCanvas.requestFocus();
 
@@ -144,6 +154,12 @@ public class GameController {
         closeButton.setOnAction(event -> {
             dialogOverlay.setVisible(false);
             dialogOverlay.setManaged(false);
+        });
+
+        disconnectButton.setOnAction(event -> {
+            if (pageSwitch != null && gamePage != null) {
+                pageSwitch.goLogin(gamePage);
+            }
         });
     }
 
@@ -159,6 +175,7 @@ public class GameController {
         }
         gc.clearRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
         gc.save();
+
         gc.setGlobalAlpha(1.0);
         gc.setTransform(1, 0, 0, 1, 0, 0);
         gc.drawImage(
@@ -167,11 +184,47 @@ public class GameController {
                 0, 0, gameCanvas.getWidth(), gameCanvas.getHeight()
         );
 
-        double screenX = player.getX() - camera.getX();
-        double screenY = player.getY() - camera.getY();
+        List<Renderable> renderables = new ArrayList<>();
+        for (GameObject object : gameObjects) {
+            renderables.add(new Renderable() {
+                @Override
+                public double getY() {
+                    return object.getY() + object.getHeight(); // Use base y-coordinate
+                }
 
-        gc.setFill(Color.RED);
-        gc.fillOval(screenX - 10, screenY - 10, 20, 20);
+                @Override
+                public void render(GraphicsContext gc, double cameraX, double cameraY) {
+                    object.render(gc, cameraX, cameraY);
+                }
+            });
+        }
+        // Add player as a renderable
+        renderables.add(new Renderable() {
+            @Override
+            public double getY() {
+                return player.getY() + PlayerConstants.PLAYER_HEIGHT; // Use base y-coordinate
+            }
+
+            @Override
+            public void render(GraphicsContext gc, double cameraX, double cameraY) {
+                if (player.getCurrentImage() != null) {
+                    player.render(gc, cameraX, cameraY);
+                } else {
+                    System.err.println("Player image is null, drawing red dot at (" + (player.getX() - cameraX) + ", " + (player.getY() - cameraY) + ")");
+                    gc.setFill(Color.RED);
+                    gc.fillRect(player.getX() - cameraX, player.getY() - cameraY, 32, 32);
+                }
+            }
+        });
+
+        // Sort by base y-coordinate (ascending, so lower y renders first)
+        renderables.sort(Comparator.comparingDouble(Renderable::getY));
+
+        // Render all objects in sorted order with debug output
+        for (Renderable renderable : renderables) {
+            renderable.render(gc, camera.getX(), camera.getY());
+        }
+
         gc.restore();
     }
 }

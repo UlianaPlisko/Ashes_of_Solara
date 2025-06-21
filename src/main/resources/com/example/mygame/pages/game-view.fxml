@@ -23,9 +23,6 @@
                     <Insets top="10" right="10" bottom="10" left="10"/>
                 </padding>
                 <Label text="Menu"/>
-                <Button fx:id="viewPlayersButton" text="View Players"/>
-                <Button fx:id="togglePauseButton" text="Toggle Pause"/>
-                <Button fx:id="pauseServerButton" text="Pause Server"/>
                 <Button fx:id="serverCommandsButton" text="Server Commands"/>
                 <Button fx:id="settingsButtonDialog" text="Settings"/>
                 <Button fx:id="reportIssueButton" text="Report an Issue"/>
