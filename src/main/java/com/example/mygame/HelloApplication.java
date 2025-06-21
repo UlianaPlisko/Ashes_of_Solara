@@ -1,5 +1,6 @@
 package com.example.mygame;
 
+import com.example.mygame.db.DatabaseWrapper;
 import com.example.mygame.game.GameManager;
 import com.example.mygame.login.LoginController;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 public class HelloApplication extends Application {
     @Getter
@@ -30,6 +32,8 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+        connect_db();
+
         stage.setOnCloseRequest(event -> {
             GameManager.stopAll();
         });
@@ -39,4 +43,18 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    private void connect_db() {
+    try {
+        Connection conn = DatabaseWrapper.getInstance().getConnection();
+        if (conn != null) {
+            System.out.println("✅ Database connection successful!");
+        } else {
+            System.out.println("❌ Failed to connect to database.");
+        }
+    } catch (Exception e) {
+        System.err.println("❌ Database error: " + e.getMessage());
+                e.printStackTrace();
+    }
+}
 }

@@ -3,6 +3,7 @@ module com.example.mygame {
     requires javafx.fxml;
     requires java.net.http;
     requires static lombok;
+    requires java.sql;
 
     opens com.example.mygame.login to javafx.fxml;
     opens com.example.mygame.game to javafx.fxml;

@@ -6,14 +6,18 @@
 
 <BorderPane fx:id="loginPage" prefHeight="600.0" prefWidth="800.0"
             fx:controller="com.example.mygame.login.LoginController"
-            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"> <center>
-        <VBox alignment="CENTER" spacing="20.0">
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="300.0">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
-            <Label fx:id="loginText" text="Login Page" />
-         <Button fx:id="toMainPage" mnemonicParsing="false" onAction="#onMainPageClick" text="To main Page" />
-            <Button fx:id="toGamePage" mnemonicParsing="false" onAction="#onGamePageClick" text="To Game Page" />
+            <Label fx:id="loginText" text="Login to MyGame" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <TextField fx:id="usernameField" promptText="Enter username" prefWidth="200.0" />
+            <PasswordField fx:id="passwordField" promptText="Enter password" prefWidth="200.0" />
+            <Label fx:id="signupText" text="Don't have an account?" style="-fx-font-size: 14px;" />
+            <Hyperlink fx:id="signupLink" text="Sign up here" onAction="#onSignupClick" />
+            <Button fx:id="toGamePage" text="Start" onAction="#onGamePageClick" prefWidth="100.0" />
         </VBox>
     </center>
 </BorderPane>

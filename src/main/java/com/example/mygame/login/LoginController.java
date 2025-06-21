@@ -7,11 +7,11 @@ import com.example.mygame.utils.switcher.SwitchPageInterface;
 import com.example.mygame.game.GameLoop;
 import com.example.mygame.game.GameThread;
 import com.example.mygame.utils.InternetMonitor;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -23,9 +23,14 @@ public class LoginController {
     @FXML
     Label loginText;
     @FXML
-    Button toMainPage;
-    @FXML
     Button toGamePage;
+    @FXML
+    TextField usernameField;
+    @FXML
+    PasswordField passwordField;
+    @FXML
+    Hyperlink signupLink;
+    
 
 
     private SwitchPageInterface pageSwitch;
@@ -69,5 +74,8 @@ public class LoginController {
         if (pageSwitch != null && loginPage != null) {
             pageSwitch.goGame(loginPage);
         }
+    }
+
+    public void onSignupClick(ActionEvent event) {
     }
 }
