@@ -15,8 +15,7 @@ public class UserDAO extends BaseDAO<User> {
     @Override
     protected User mapResultSet(ResultSet rs) throws SQLException {
         return new User(
-                rs.getInt("id"),
-                rs.getString("Usernamebigint"),
+                rs.getString("Username"),
                 rs.getString("Email"),
                 rs.getString("Password")
         );
@@ -30,9 +29,8 @@ public class UserDAO extends BaseDAO<User> {
      * @throws DataAccessException if the operation fails
      */
     public int addUser(User user) {
-        String query = "INSERT INTO \"User\" (\"id\", \"Usernamebigint\", \"Email\", \"Password\") VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO \"User\" (\"Username\", \"Email\", \"Password\") VALUES (?, ?, ?, ?)";
         return executeUpdate(query,
-                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword());
@@ -41,13 +39,12 @@ public class UserDAO extends BaseDAO<User> {
     /**
      * Deletes a user by its ID.
      *
-     * @param id the ID of the user to delete
      * @return the number of rows affected
      * @throws DataAccessException if the operation fails
      */
-    public int deleteUser(Long id) {
-        String query = "DELETE FROM \"User\" WHERE \"id\" = ?";
-        return executeUpdate(query, id);
+    public int deleteUser(String username) {
+        String query = "DELETE FROM \"User\" WHERE \"Username\" = ?";
+        return executeUpdate(query, username);
     }
 
     /**
@@ -71,12 +68,11 @@ public class UserDAO extends BaseDAO<User> {
      * @throws DataAccessException if the operation fails
      */
     public int updateUser(User user) {
-        String query = "UPDATE \"User\" SET \"Usernamebigint\" = ?, \"Email\" = ?, \"Password\" = ? WHERE \"id\" = ?";
+        String query = "UPDATE \"User\" SET \"Username\" = ?, \"Email\" = ?, \"Password\" = ? WHERE \"id\" = ?";
         return executeUpdate(query,
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword(),
-                user.getId());
+                user.getPassword());
     }
 
     /**
@@ -88,5 +84,18 @@ public class UserDAO extends BaseDAO<User> {
     public List<User> getAllUsers() {
         String query = "SELECT * FROM \"User\"";
         return findAll(query);
+    }
+
+    /**
+     * Retrieves a user by its username.
+     *
+     * @param username the username to search for
+     * @return the user, or null if not found
+     * @throws DataAccessException if the operation fails
+     */
+    public User getUserByUsername(String username) {
+        String query = "SELECT * FROM \"User\" WHERE \"Username\" = ?";
+        List<User> users = findAll(query, username);
+        return users.isEmpty() ? null : users.get(0);
     }
 }

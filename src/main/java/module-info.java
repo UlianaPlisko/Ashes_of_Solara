@@ -4,6 +4,8 @@ module com.example.mygame {
     requires java.net.http;
     requires static lombok;
     requires java.sql;
+    requires jbcrypt;
+    requires org.postgresql.jdbc;
 
     opens com.example.mygame.login to javafx.fxml;
     opens com.example.mygame.game to javafx.fxml;

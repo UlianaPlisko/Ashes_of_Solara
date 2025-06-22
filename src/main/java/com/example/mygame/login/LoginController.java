@@ -2,6 +2,7 @@ package com.example.mygame.login;
 
 import com.example.mygame.game.GameController;
 import com.example.mygame.game.GameManager;
+import com.example.mygame.models.User;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
 import com.example.mygame.game.GameLoop;
@@ -34,11 +35,13 @@ public class LoginController {
 
 
     private SwitchPageInterface pageSwitch;
+    private UserService userService;
 
 
     @FXML
     public void initialize() {
         pageSwitch = new SwitchPage();
+        userService = new UserService();
     }
 
 
@@ -51,28 +54,46 @@ public class LoginController {
 
     @FXML
     protected void onGamePageClick() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/mygame/pages/game-view.fxml"));
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
         try {
-            Parent root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            User user = userService.login(username, password);
+            if (user == null) {
+                System.out.println("Login Failed, Invalid username or password.");
+                return;
+            }
 
-        GameController gameController = loader.getController();
+            // Proceed to game page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/mygame/pages/game-view.fxml"));
+            Parent root;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to load game page", e);
+            }
 
-        GameLoop loop = new GameLoop(gameController);
-        GameManager.setGameLoop(loop);
-        loop.start();
-        GameThread thread = new GameThread();
-        GameManager.setGameThread(thread);
-        thread.start();
+            GameController gameController = loader.getController();
 
-        InternetMonitor monitor = new InternetMonitor(new SwitchPage(), thread, 5000);
-        GameManager.setInternetMonitor(monitor);
-        monitor.start();
+            GameLoop loop = new GameLoop(gameController);
+            GameManager.setGameLoop(loop);
+            loop.start();
+            GameThread thread = new GameThread();
+            GameManager.setGameThread(thread);
+            thread.start();
 
-        if (pageSwitch != null && loginPage != null) {
-            pageSwitch.goGame(loginPage);
+            InternetMonitor monitor = new InternetMonitor(new SwitchPage(), thread, 5000);
+            GameManager.setInternetMonitor(monitor);
+            monitor.start();
+
+            if (pageSwitch != null && loginPage != null) {
+                pageSwitch.goGame(loginPage);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Input Error");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred during login.");
+            e.printStackTrace();
         }
     }
 

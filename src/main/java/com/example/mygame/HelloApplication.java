@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.Getter;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -42,6 +43,8 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+//        String hashedPassword = BCrypt.hashpw("123456789", BCrypt.gensalt());
+//        System.out.println(hashedPassword);
     }
 
     private void connect_db() {
