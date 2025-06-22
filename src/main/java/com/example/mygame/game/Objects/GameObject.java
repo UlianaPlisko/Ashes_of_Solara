@@ -1,10 +1,11 @@
 package com.example.mygame.game.Objects;
 
+import com.example.mygame.game.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
-public abstract class GameObject {
+public abstract class GameObject implements Renderable {
 
     @Getter
     protected double x, y;

@@ -1,4 +1,4 @@
-package com.example.mygame.game.Objects.Tree;
+package com.example.mygame.game;
 
 import javafx.scene.canvas.GraphicsContext;
 

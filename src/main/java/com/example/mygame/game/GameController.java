@@ -1,14 +1,12 @@
 package com.example.mygame.game;
 
 import com.example.mygame.game.Objects.GameObject;
-import com.example.mygame.game.Objects.Tree.Renderable;
 import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.game.player.Player;
 import com.example.mygame.game.player.PlayerConstants;
 import com.example.mygame.utils.camera.Camera;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

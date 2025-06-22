@@ -1,12 +1,13 @@
 package com.example.mygame.game.player;
 
+import com.example.mygame.game.Renderable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
 import java.util.Objects;
 
-public class Player {
+public class Player implements Renderable {
 
     @Getter
     private double x;
