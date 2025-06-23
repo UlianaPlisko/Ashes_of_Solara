@@ -21,6 +21,6 @@ public class SwitchPage implements SwitchPageInterface{
 
     @Override
     public void goRegister(BorderPane anchorPane) {
-
+        new SceneSwitchComponent(anchorPane, "/com/example/mygame/pages/register.fxml");
     }
 }

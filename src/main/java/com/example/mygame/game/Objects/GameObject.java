@@ -1,9 +1,11 @@
 package com.example.mygame.game.Objects;
 
 import com.example.mygame.game.Renderable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class GameObject implements Renderable {
 
@@ -12,6 +14,9 @@ public abstract class GameObject implements Renderable {
     protected Image image;
     @Getter
     protected double width, height;
+    @Setter
+    @Getter
+    protected boolean solid;
 
     public GameObject(double x, double y, Image image, double width, double height ) {
         this.x = x;
@@ -31,5 +36,4 @@ public abstract class GameObject implements Renderable {
         return px + pw > x && px < x + image.getWidth()
                 && py + ph > y && py < y + image.getHeight();
     }
-
 }

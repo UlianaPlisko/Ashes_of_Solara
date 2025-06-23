@@ -118,19 +118,19 @@ public class GameController {
                     switch (code) {
                         case LEFT:
                         case A:
-                            player.moveLeft();
+                            player.moveLeft(gameObjects);
                             break;
                         case RIGHT:
                         case D:
-                            player.moveRight();
+                            player.moveRight(gameObjects);
                             break;
                         case UP:
                         case W:
-                            player.moveUp();
+                            player.moveUp(gameObjects);
                             break;
                         case DOWN:
                         case S:
-                            player.moveDown();
+                            player.moveDown(gameObjects);
                             break;
                     }
                     update();

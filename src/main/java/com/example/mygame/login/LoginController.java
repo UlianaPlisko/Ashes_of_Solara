@@ -98,5 +98,16 @@ public class LoginController {
     }
 
     public void onSignupClick(ActionEvent event) {
+        if (pageSwitch != null && loginPage != null) {
+            pageSwitch.goRegister(loginPage);
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

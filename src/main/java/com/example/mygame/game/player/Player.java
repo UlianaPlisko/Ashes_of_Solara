@@ -1,10 +1,14 @@
 package com.example.mygame.game.player;
 
+import com.example.mygame.game.Objects.GameObject;
+import com.example.mygame.game.Objects.SolidObject;
 import com.example.mygame.game.Renderable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Player implements Renderable {
@@ -70,32 +74,44 @@ public class Player implements Renderable {
         }
     }
 
-    public void moveLeft() {
-        x -= 10;
-        currentDirection = Direction.LEFT;
-        updatePlayerImage();
-        clampToMap();
+    public void moveLeft(List<GameObject> gameObjects) {
+        double newX = x - 10;
+        if (canMoveTo(newX, y, gameObjects)) {
+            x = newX;
+            currentDirection = Direction.LEFT;
+            updatePlayerImage();
+            clampToMap();
+        }
     }
 
-    public void moveRight() {
-        x += 10;
-        currentDirection = Direction.RIGHT;
-        updatePlayerImage();
-        clampToMap();
+    public void moveRight(List<GameObject> gameObjects) {
+        double newX = x + 10;
+        if (canMoveTo(newX, y, gameObjects)) {
+            x = newX;
+            currentDirection = Direction.RIGHT;
+            updatePlayerImage();
+            clampToMap();
+        }
     }
 
-    public void moveUp() {
-        y -= 10;
-        currentDirection = Direction.UP;
-        updatePlayerImage();
-        clampToMap();
+    public void moveUp(List<GameObject> gameObjects) {
+        double newY = y - 10;
+        if (canMoveTo(x, newY, gameObjects)) {
+            y = newY;
+            currentDirection = Direction.UP;
+            updatePlayerImage();
+            clampToMap();
+        }
     }
 
-    public void moveDown() {
-        y += 10;
-        currentDirection = Direction.DOWN;
-        updatePlayerImage();
-        clampToMap();
+    public void moveDown(List<GameObject> gameObjects) {
+        double newY = y + 10;
+        if (canMoveTo(x, newY, gameObjects)) {
+            y = newY;
+            currentDirection = Direction.DOWN;
+            updatePlayerImage();
+            clampToMap();
+        }
     }
 
     // Ensure player stays within map boundaries
@@ -108,5 +124,28 @@ public class Player implements Renderable {
 
     public void render(GraphicsContext gc, double cameraX, double cameraY) {
         gc.drawImage(currentImage, x - cameraX, y - cameraY, PlayerConstants.PLAYER_WIDTH, PlayerConstants.PLAYER_HEIGHT);
+    }
+
+    public Rectangle2D getBoundsAt(double newX, double newY) {
+        double footHeight = 10;  // how tall the collision box is
+        double footWidth = PlayerConstants.PLAYER_WIDTH * 0.5; // optional narrower width
+
+        double footX = newX + (PlayerConstants.PLAYER_WIDTH - footWidth) / 2.0;
+        double footY = newY + PlayerConstants.PLAYER_HEIGHT - footHeight;
+
+        return new Rectangle2D(footX, footY, footWidth, footHeight);
+    }
+
+    private boolean canMoveTo(double newX, double newY, List<GameObject> gameObjects) {
+        Rectangle2D futureBounds = getBoundsAt(newX, newY);
+
+        for (GameObject object : gameObjects) {
+            if (object instanceof SolidObject solid) {
+                if (solid.getBounds().intersects(futureBounds)) {
+                    return false; // Blocked
+                }
+            }
+        }
+        return true; // No collisions
     }
 }

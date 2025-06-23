@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="registerPage" prefHeight="600.0" prefWidth="800.0"
+            fx:controller="com.example.mygame.login.RegisterController"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="300.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <Label fx:id="registerText" text="Register for MyGame" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <TextField fx:id="usernameField" promptText="Choose username" prefWidth="200.0" />
+            <TextField fx:id="emailField" promptText="Enter email" prefWidth="200.0" />
+            <PasswordField fx:id="passwordField" promptText="Choose password" prefWidth="200.0" />
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" prefWidth="200.0" />
+            <Label fx:id="loginText" text="Already have an account?" style="-fx-font-size: 14px;" />
+            <Hyperlink fx:id="loginLink" text="Log in here" onAction="#onLoginClick" />
+            <Button fx:id="registerButton" text="Register" onAction="#onRegisterClick" prefWidth="100.0" />
+        </VBox>
+    </center>
+</BorderPane>
