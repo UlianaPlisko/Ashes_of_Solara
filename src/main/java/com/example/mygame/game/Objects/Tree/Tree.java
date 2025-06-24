@@ -32,7 +32,6 @@ public class Tree extends GameObject implements SolidObject {
 
     @Override
     public Rectangle2D getBounds() {
-        System.out.println("Tree bounds: " + trunkOffsetX + "," + trunkOffsetY + "," + trunkWidth + "," + trunkHeight);
         return new Rectangle2D(
                 x + trunkOffsetX,
                 y + trunkOffsetY,

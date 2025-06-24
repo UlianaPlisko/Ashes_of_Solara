@@ -16,15 +16,36 @@ public class Camera {
     private double width;
     @Setter
     private double height;
+    @Setter
+    private double smoothing = 0.4;
+
+    private boolean firstUpdate = true;
 
     public Camera(double width, double height) {
         this.width = width;
         this.height = height;
     }
 
+    public void setSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        this.firstUpdate = true; // trigger instant recenter after resize
+    }
+
     public void centerOn(double targetX, double targetY) {
-        this.x = targetX - width / 2;
-        this.y = targetY - height / 2;
+        double targetCamX = targetX - width / 2;
+        double targetCamY = targetY - height / 2;
+
+        if (firstUpdate) {
+            // Snap instantly on the first update
+            this.x = targetCamX;
+            this.y = targetCamY;
+            firstUpdate = false;
+        } else {
+            // Interpolate smoothly afterward
+            this.x += (targetCamX - this.x) * smoothing;
+            this.y += (targetCamY - this.y) * smoothing;
+        }
     }
 
     public void clampToMap(double mapWidth, double mapHeight) {

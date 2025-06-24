@@ -7,6 +7,7 @@ import com.example.mygame.game.player.PlayerConstants;
 import com.example.mygame.utils.camera.Camera;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -99,14 +100,25 @@ public class GameController {
         camera = new Camera(gameCanvas.getWidth(), gameCanvas.getHeight());
         camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
+        Platform.runLater(() -> {
+            double canvasWidth = gameCanvas.getWidth();
+            double canvasHeight = gameCanvas.getHeight();
+
+            camera = new Camera(canvasWidth, canvasHeight);
+            camera.centerOn(player.getX(), player.getY());
+            camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
+
+            update();
+            render(); // now that everything is properly initialized
+        });
 
         gameCanvas.widthProperty().addListener((obs, oldVal, newVal) -> {
-            camera.setWidth(newVal.doubleValue());
+            camera.setSize(newVal.doubleValue(), gameCanvas.getHeight());
             update();
             render();
         });
         gameCanvas.heightProperty().addListener((obs, oldVal, newVal) -> {
-            camera.setHeight(newVal.doubleValue());
+            camera.setSize(gameCanvas.getWidth(), newVal.doubleValue());
             update();
             render();
         });
@@ -142,7 +154,7 @@ public class GameController {
         gameCanvas.setFocusTraversable(true);
         gameCanvas.requestFocus();
 
-        render();
+//        render();
 
         settingsButton.setOnAction(event -> {
             dialogOverlay.setVisible(true);
