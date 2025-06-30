@@ -1,6 +1,7 @@
 package com.example.mygame.game;
 
 import com.example.mygame.utils.InternetMonitor;
+import javafx.application.Platform;
 
 public class GameManager {
     private static GameLoop gameLoop;
@@ -23,5 +24,7 @@ public class GameManager {
         if (gameThread != null) gameThread.stopGame();
         if (internetMonitor != null) internetMonitor.stop();
         if (gameLoop != null) gameLoop.stop();
+        Platform.exit();
+        System.exit(0);
     }
 }

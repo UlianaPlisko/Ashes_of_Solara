@@ -1,9 +1,11 @@
 package com.example.mygame.game;
 
+import com.example.mygame.game.Objects.Bush.Bush;
 import com.example.mygame.game.Objects.GameObject;
 import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.game.player.Player;
 import com.example.mygame.game.player.PlayerConstants;
+import com.example.mygame.utils.InternetMonitor;
 import com.example.mygame.utils.camera.Camera;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
@@ -64,9 +66,19 @@ public class GameController {
     private List<GameObject> gameObjects = new ArrayList<>();
     private SwitchPageInterface pageSwitch;
 
-    private GameLoop gameLoop;
-
     public void initialize() {
+
+        GameLoop loop = new GameLoop(this);
+        GameManager.setGameLoop(loop);
+        loop.start();
+        GameThread thread = new GameThread();
+        GameManager.setGameThread(thread);
+        thread.start();
+
+        InternetMonitor monitor = new InternetMonitor(new SwitchPage(), thread, 5000);
+        GameManager.setInternetMonitor(monitor);
+        monitor.start();
+
         if (gameCanvas == null) {
             System.err.println("Canvas is null!");
             return;
@@ -90,9 +102,11 @@ public class GameController {
         player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
         Tree tree1 = new Tree(player.getX() + 100, player.getY());  // Place near player
         Tree tree2 = new Tree(player.getX() - 200, player.getY() + 150);
+        Bush bush1 = new Bush(player.getX() - 300, player.getY() + 150);
 
         gameObjects.add(tree1);
         gameObjects.add(tree2);
+        gameObjects.add(bush1);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
@@ -123,7 +137,7 @@ public class GameController {
             render();
         });
 
-        gameCanvas.sceneProperty().addListener((obs, oldScene, newScene) -> {
+        gamePage.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(event -> {
                     KeyCode code = event.getCode();
@@ -145,10 +159,18 @@ public class GameController {
                             player.moveDown(gameObjects);
                             break;
                     }
-                    update();
-                    render();
                 });
             }
+        });
+
+        gamePage.setOnMouseClicked(event -> {
+            double clickX = event.getX();
+            double clickY = event.getY();
+
+            double worldX = clickX + camera.getX();
+            double worldY = clickY + camera.getY();
+
+            player.setTarget(worldX, worldY);
         });
 
         gameCanvas.setFocusTraversable(true);
@@ -176,6 +198,7 @@ public class GameController {
     public void update() {
         camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
+        player.update(gameObjects);
     }
 
     public void render() {
@@ -227,7 +250,6 @@ public class GameController {
             }
         });
 
-        // Sort by base y-coordinate (ascending, so lower y renders first)
         renderables.sort(Comparator.comparingDouble(Renderable::getY));
 
         // Render all objects in sorted order with debug output

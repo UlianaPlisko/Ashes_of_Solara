@@ -73,19 +73,6 @@ public class LoginController {
                 throw new RuntimeException("Failed to load game page", e);
             }
 
-            GameController gameController = loader.getController();
-
-            GameLoop loop = new GameLoop(gameController);
-            GameManager.setGameLoop(loop);
-            loop.start();
-            GameThread thread = new GameThread();
-            GameManager.setGameThread(thread);
-            thread.start();
-
-            InternetMonitor monitor = new InternetMonitor(new SwitchPage(), thread, 5000);
-            GameManager.setInternetMonitor(monitor);
-            monitor.start();
-
             if (pageSwitch != null && loginPage != null) {
                 pageSwitch.goGame(loginPage);
             }

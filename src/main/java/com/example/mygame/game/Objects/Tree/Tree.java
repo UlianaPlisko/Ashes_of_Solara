@@ -15,7 +15,7 @@ public class Tree extends GameObject implements SolidObject {
     private final double trunkHeight;
 
     public Tree(double x, double y) {
-        super(x, y, new Image(Tree.class.getResource("/com/example/mygame/img/tree/Birchnut_Trees_Red_Big.png").toExternalForm()),
+        super(x, y, new Image(Tree.class.getResource(GameObjectConstans.BIG_TREE_IMAGE).toExternalForm()),
                 GameObjectConstans.BIG_TREE_WIDTH, GameObjectConstans.BIG_TREE_HEIGHT);
         treeType = "Big tree";
 

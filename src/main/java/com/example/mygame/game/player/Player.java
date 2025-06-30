@@ -17,6 +17,9 @@ public class Player implements Renderable {
     private double x;
     @Getter
     private double y;
+    private Double targetX = null;
+    private Double targetY = null;
+    private final double speed = 5.0;
     private double mapWidth;
     private double mapHeight;
     @Getter
@@ -76,41 +79,65 @@ public class Player implements Renderable {
 
     public void moveLeft(List<GameObject> gameObjects) {
         double newX = x - 10;
-        if (canMoveTo(newX, y, gameObjects)) {
-            x = newX;
-            currentDirection = Direction.LEFT;
-            updatePlayerImage();
-            clampToMap();
-        }
+        setTarget(newX, y);
     }
 
     public void moveRight(List<GameObject> gameObjects) {
         double newX = x + 10;
-        if (canMoveTo(newX, y, gameObjects)) {
-            x = newX;
-            currentDirection = Direction.RIGHT;
-            updatePlayerImage();
-            clampToMap();
-        }
+        setTarget(newX, y);
     }
 
     public void moveUp(List<GameObject> gameObjects) {
         double newY = y - 10;
-        if (canMoveTo(x, newY, gameObjects)) {
-            y = newY;
-            currentDirection = Direction.UP;
-            updatePlayerImage();
-            clampToMap();
-        }
+        setTarget(x, newY);
     }
 
     public void moveDown(List<GameObject> gameObjects) {
         double newY = y + 10;
-        if (canMoveTo(x, newY, gameObjects)) {
+        setTarget(x, newY);
+    }
+
+    public void setTarget(double targetX, double targetY) {
+        this.targetX = targetX;
+        this.targetY = targetY;
+    }
+
+    public void update(List<GameObject> gameObjects) {
+        if (targetX == null || targetY == null) return;
+
+        double dx = targetX - x;
+        double dy = targetY - y;
+
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < speed) {
+            x = targetX;
+            y = targetY;
+            targetX = null;
+            targetY = null;
+            return;
+        }
+
+        double stepX = (dx / distance) * speed;
+        double stepY = (dy / distance) * speed;
+
+        double newX = x + stepX;
+        double newY = y + stepY;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            currentDirection = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+        } else {
+            currentDirection = dy > 0 ? Direction.DOWN : Direction.UP;
+        }
+
+        if (canMoveTo(newX, newY, gameObjects)) {
+            x = newX;
             y = newY;
-            currentDirection = Direction.DOWN;
             updatePlayerImage();
             clampToMap();
+        } else {
+            // Stop moving if collision encountered
+            targetX = null;
+            targetY = null;
         }
     }
 
