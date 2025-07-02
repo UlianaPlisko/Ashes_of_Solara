@@ -76,4 +76,19 @@ public abstract class BaseDAO<T> {
             }
         }
     }
+
+    public <V> V findSingleValue(String query, Object... params) {
+        ResultSet rs = null;
+        try {
+            rs = DatabaseWrapper.getInstance().executeQuery(query, params);
+            if (rs.next()) {
+                return (V) rs.getObject(1);
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error executing single value query: " + query, e);
+        } finally {
+            closeResultSet(rs);
+        }
+        return null;
+    }
 }

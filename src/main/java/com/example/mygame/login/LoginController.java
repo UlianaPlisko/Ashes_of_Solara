@@ -60,7 +60,7 @@ public class LoginController {
         try {
             User user = userService.login(username, password);
             if (user == null) {
-                System.out.println("Login Failed, Invalid username or password.");
+                showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.");
                 return;
             }
 
@@ -77,14 +77,15 @@ public class LoginController {
                 pageSwitch.goGame(loginPage);
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Input Error");
+            showAlert(Alert.AlertType.ERROR, "Input Error", "Invalid input.");
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred during login.");
+            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred during login.");
             e.printStackTrace();
         }
     }
 
-    public void onSignupClick(ActionEvent event) {
+    @FXML
+    protected void onSignupClick() {
         if (pageSwitch != null && loginPage != null) {
             pageSwitch.goRegister(loginPage);
         }

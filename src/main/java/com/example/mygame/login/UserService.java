@@ -1,18 +1,22 @@
 package com.example.mygame.login;
 
+import com.example.mygame.dao.CharacterDAO;
 import com.example.mygame.dao.UserDAO;
 import com.example.mygame.exceptions.DataAccessException;
 import com.example.mygame.models.User;
+import com.example.mygame.models.Character;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
 public class UserService {
     private final UserDAO userDAO;
+    private final CharacterDAO characterDAO;
     private static final int MIN_PASSWORD_LENGTH = 8;
 
     public UserService() {
         this.userDAO = new UserDAO();
+        this.characterDAO = new CharacterDAO();
     }
 
     /**
@@ -66,6 +70,21 @@ public class UserService {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         User user = new User(username, email, hashedPassword);
         userDAO.addUser(user);
+
+        // Get the user from DB (to fetch generated ID)
+        int userId = userDAO.getIdByUsername(username);
+
+        // Create and insert default Character
+        Character character = new Character(
+                userId,      // set User_id
+                username,      // character name
+                100, 100,                // maxHealth, health
+                100, 100,                // maxSanity, sanity
+                100, 100,                // maxHunger, hunger
+                0, 0                     // x, y position
+        );
+
+        characterDAO.addCharacter(character);
         return user;
     }
 }

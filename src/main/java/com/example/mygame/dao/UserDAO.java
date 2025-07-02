@@ -29,7 +29,7 @@ public class UserDAO extends BaseDAO<User> {
      * @throws DataAccessException if the operation fails
      */
     public int addUser(User user) {
-        String query = "INSERT INTO \"User\" (\"Username\", \"Email\", \"Password\") VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO \"User\" (\"Username\", \"Email\", \"Password\") VALUES (?, ?, ?)";
         return executeUpdate(query,
                 user.getUsername(),
                 user.getEmail(),
@@ -97,5 +97,11 @@ public class UserDAO extends BaseDAO<User> {
         String query = "SELECT * FROM \"User\" WHERE \"Username\" = ?";
         List<User> users = findAll(query, username);
         return users.isEmpty() ? null : users.get(0);
+    }
+
+    public int getIdByUsername(String username) {
+        String query = "SELECT \"id\" FROM \"User\" WHERE \"Username\" = ?";
+        Integer id = findSingleValue(query, username);
+        return id != null ? id : -1;
     }
 }

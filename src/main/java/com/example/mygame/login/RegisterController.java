@@ -57,6 +57,9 @@ public class RegisterController {
 
             User newUser = userService.register(username, email, password);
             showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + newUser.getUsername() + "!");
+            if (pageSwitch != null && registerPage != null) {
+                pageSwitch.goGame(registerPage);
+            }
 
             // Optionally, redirect to login or game page here
         } catch (IllegalArgumentException e) {

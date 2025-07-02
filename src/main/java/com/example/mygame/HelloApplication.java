@@ -34,6 +34,8 @@ public class HelloApplication extends Application {
         stage.show();
 
         connect_db();
+//        String hashedPassword = BCrypt.hashpw("123456789", BCrypt.gensalt());
+//        System.out.println(hashedPassword);
 
         stage.setOnCloseRequest(event -> {
             GameManager.stopAll();
@@ -43,8 +45,7 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch();
-//        String hashedPassword = BCrypt.hashpw("123456789", BCrypt.gensalt());
-//        System.out.println(hashedPassword);
+
     }
 
     private void connect_db() {

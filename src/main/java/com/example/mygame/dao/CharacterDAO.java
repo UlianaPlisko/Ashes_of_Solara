@@ -15,7 +15,6 @@ public class CharacterDAO extends BaseDAO<Character> {
     @Override
     protected Character mapResultSet(ResultSet rs) throws SQLException {
         return new Character(
-                rs.getInt("id"),
                 rs.getInt("User_id"),
                 rs.getString("Name"),
                 rs.getInt("MaxHealth"),
@@ -37,7 +36,7 @@ public class CharacterDAO extends BaseDAO<Character> {
      * @throws DataAccessException if the operation fails
      */
     public int addCharacter(Character character) {
-        String query = "INSERT INTO \"Character\" (\"User_id\", \"Name\", \"MaxHealth\", \"Health\", \"MaxSanity\", \"Sanity\", \"MaxHunger\", \"Hunger\", \"x\", \"ybigint\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO \"Character\" (\"User_id\", \"Name\", \"MaxHealth\", \"Health\", \"MaxSanity\", \"Sanity\", \"MaxHunger\", \"Hunger\", \"x\", \"y\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return executeUpdate(query,
                 character.getUserId(),
                 character.getName(),
@@ -84,7 +83,7 @@ public class CharacterDAO extends BaseDAO<Character> {
      * @throws DataAccessException if the operation fails
      */
     public int updateCharacter(Character character) {
-        String query = "UPDATE \"Character\" SET \"User_id\" = ?, \"Name\" = ?, \"MaxHealth\" = ?, \"Health\" = ?, \"MaxSanity\" = ?, \"Sanity\" = ?, \"MaxHunger\" = ?, \"Hunger\" = ?, \"x\" = ?, \"ybigint\" = ? WHERE \"id\" = ?";
+        String query = "UPDATE \"Character\" SET \"User_id\" = ?, \"Name\" = ?, \"MaxHealth\" = ?, \"Health\" = ?, \"MaxSanity\" = ?, \"Sanity\" = ?, \"MaxHunger\" = ?, \"Hunger\" = ?, \"x\" = ?, \"y\" = ? WHERE \"User_id\" = ?";
         return executeUpdate(query,
                 character.getUserId(),
                 character.getName(),
@@ -96,7 +95,7 @@ public class CharacterDAO extends BaseDAO<Character> {
                 character.getHunger(),
                 character.getX(),
                 character.getY(),
-                character.getId());
+                character.getUserId());
     }
 
     /**

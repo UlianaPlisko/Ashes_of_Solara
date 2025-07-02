@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Character {
-    private int id;
     private int userId;
     private String name;
     private int maxHealth;
