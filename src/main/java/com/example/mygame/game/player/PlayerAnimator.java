@@ -19,45 +19,26 @@ public class PlayerAnimator {
 
     private void loadFrames() {
         try {
-            // Example for DOWN direction
             animationFrames.put(Player.Direction.DOWN, PlayerConstants.WILSON_MOVING_DOWN_FRAMES);
 
-            // Set idle (static) image for DOWN
             idleFrames.put(Player.Direction.DOWN,
                     new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_FRONT))));
 
-            // Repeat for other directions
-//            animationFrames.put(Player.Direction.UP, new Image[]{
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK_1))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK_2))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK_3))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK_4))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK_5))),
-//            });
-//            idleFrames.put(Player.Direction.UP,
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK))));
-//
-//            // LEFT
-//            animationFrames.put(Player.Direction.LEFT, new Image[]{
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT_1))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT_2))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT_3))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT_4))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT_5))),
-//            });
-//            idleFrames.put(Player.Direction.LEFT,
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT))));
-//
-//            // RIGHT
-//            animationFrames.put(Player.Direction.RIGHT, new Image[]{
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT_1))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT_2))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT_3))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT_4))),
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT_5))),
-//            });
-//            idleFrames.put(Player.Direction.RIGHT,
-//                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT))));
+            animationFrames.put(Player.Direction.UP, PlayerConstants.WILSON_MOVING_UP_FRAMES);
+
+            idleFrames.put(Player.Direction.UP,
+                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_BACK))));
+
+            animationFrames.put(Player.Direction.LEFT, PlayerConstants.WILSON_MOVING_LEFT_FRAMES);
+
+            idleFrames.put(Player.Direction.LEFT,
+                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_LEFT))));
+
+
+            animationFrames.put(Player.Direction.RIGHT, PlayerConstants.WILSON_MOVING_RIGHT_FRAMES);
+
+            idleFrames.put(Player.Direction.RIGHT,
+                    new Image(Objects.requireNonNull(getClass().getResourceAsStream(PlayerConstants.WILSON_RIGHT))));
 
         } catch (Exception e) {
             System.err.println("Failed to load animation frames: " + e.getMessage());
