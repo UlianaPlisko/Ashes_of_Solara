@@ -26,7 +26,7 @@ public class Player implements Renderable {
     private Image currentImage; // The image to display for the player
     @Getter
     private Direction currentDirection;
-    private PlayerAnimator animator;
+    private final PlayerAnimator animator;
 
     private Image imageUp;
     private Image imageDown;
@@ -43,6 +43,8 @@ public class Player implements Renderable {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.currentDirection = Direction.DOWN;
+
+        this.animator = new PlayerAnimator();
 
         loadPlayerImages();
         updatePlayerImage();
@@ -114,6 +116,7 @@ public class Player implements Renderable {
             y = targetY;
             targetX = null;
             targetY = null;
+            currentImage = animator.getCurrentImage(currentDirection, false); // ← Add this line
             return;
         }
 
@@ -132,12 +135,13 @@ public class Player implements Renderable {
         if (canMoveTo(newX, newY, gameObjects)) {
             x = newX;
             y = newY;
-            updatePlayerImage();
+            currentImage = animator.getCurrentImage(currentDirection, true);
             clampToMap();
         } else {
             // Stop moving if collision encountered
             targetX = null;
             targetY = null;
+            currentImage = animator.getCurrentImage(currentDirection, false);
         }
     }
 
