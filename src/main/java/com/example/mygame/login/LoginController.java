@@ -1,14 +1,9 @@
 package com.example.mygame.login;
 
-import com.example.mygame.game.GameController;
-import com.example.mygame.game.GameManager;
 import com.example.mygame.models.User;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
-import com.example.mygame.game.GameLoop;
-import com.example.mygame.game.GameThread;
-import com.example.mygame.utils.InternetMonitor;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,23 +1,23 @@
 package com.example.mygame.game.Objects.Tree;
 
-import com.example.mygame.game.Objects.GameObject;
-import com.example.mygame.game.Objects.GameObjectConstans;
+import com.example.mygame.game.Objects.GameObjectAbstract;
+import com.example.mygame.game.Objects.GameObjectConstants;
 import com.example.mygame.game.Objects.SolidObject;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
-public class Tree extends GameObject implements SolidObject {
-    protected String treeType;
+public class Tree extends GameObjectAbstract implements SolidObject {
 
     private final double trunkOffsetX;
     private final double trunkOffsetY;
     private final double trunkWidth;
     private final double trunkHeight;
 
-    public Tree(double x, double y) {
-        super(x, y, new Image(Tree.class.getResource(GameObjectConstans.BIG_TREE_IMAGE).toExternalForm()),
-                GameObjectConstans.BIG_TREE_WIDTH, GameObjectConstans.BIG_TREE_HEIGHT);
-        treeType = "Big tree";
+    public Tree(String name, double x, double y) {
+        super(x, y,
+                getImageForName(name),
+                getWidthForName(name),
+                getHeightForName(name));
 
         this.trunkOffsetX = width / 2 - 2;  // center - half of trunk width
         this.trunkOffsetY = height - 10;    // near the bottom of the image
@@ -27,7 +27,7 @@ public class Tree extends GameObject implements SolidObject {
 
     @Override
     public void interact() {
-        System.out.println("Chopping tree (" + treeType + ")");
+        System.out.println("Chopping tree ");
     }
 
     @Override

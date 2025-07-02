@@ -1,7 +1,8 @@
 package com.example.mygame.game;
 
 import com.example.mygame.game.Objects.Bush.Bush;
-import com.example.mygame.game.Objects.GameObject;
+import com.example.mygame.game.Objects.GameObjectAbstract;
+import com.example.mygame.game.Objects.ObjectService;
 import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.game.player.Player;
 import com.example.mygame.game.player.PlayerConstants;
@@ -63,7 +64,8 @@ public class GameController {
     private Image mapImage;
     private Camera camera;
     private Player player;
-    private List<GameObject> gameObjects = new ArrayList<>();
+    private List<GameObjectAbstract> gameObjects = new ArrayList<>();
+    private ObjectService objectService;
     private SwitchPageInterface pageSwitch;
 
     public void initialize() {
@@ -78,6 +80,9 @@ public class GameController {
         InternetMonitor monitor = new InternetMonitor(new SwitchPage(), thread, 5000);
         GameManager.setInternetMonitor(monitor);
         monitor.start();
+
+        objectService = new ObjectService();
+        gameObjects = objectService.getAllGameObjects();
 
         if (gameCanvas == null) {
             System.err.println("Canvas is null!");
@@ -100,13 +105,13 @@ public class GameController {
         pageSwitch = new SwitchPage();
 
         player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
-        Tree tree1 = new Tree(player.getX() + 100, player.getY());  // Place near player
-        Tree tree2 = new Tree(player.getX() - 200, player.getY() + 150);
-        Bush bush1 = new Bush(player.getX() - 300, player.getY() + 150);
-
-        gameObjects.add(tree1);
-        gameObjects.add(tree2);
-        gameObjects.add(bush1);
+//        Tree tree1 = new Tree(player.getX() + 100, player.getY());  // Place near player
+//        Tree tree2 = new Tree(player.getX() - 200, player.getY() + 150);
+//        Bush bush1 = new Bush(player.getX() - 300, player.getY() + 150);
+//
+//        gameObjects.add(tree1);
+//        gameObjects.add(tree2);
+//        gameObjects.add(bush1);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
@@ -218,7 +223,7 @@ public class GameController {
         );
 
         List<Renderable> renderables = new ArrayList<>();
-        for (GameObject object : gameObjects) {
+        for (GameObjectAbstract object : gameObjects) {
             renderables.add(new Renderable() {
                 @Override
                 public double getY() {

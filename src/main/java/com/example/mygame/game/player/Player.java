@@ -1,6 +1,6 @@
 package com.example.mygame.game.player;
 
-import com.example.mygame.game.Objects.GameObject;
+import com.example.mygame.game.Objects.GameObjectAbstract;
 import com.example.mygame.game.Objects.SolidObject;
 import com.example.mygame.game.Renderable;
 import javafx.geometry.Rectangle2D;
@@ -79,22 +79,22 @@ public class Player implements Renderable {
         }
     }
 
-    public void moveLeft(List<GameObject> gameObjects) {
+    public void moveLeft(List<GameObjectAbstract> gameObjects) {
         double newX = x - 10;
         setTarget(newX, y);
     }
 
-    public void moveRight(List<GameObject> gameObjects) {
+    public void moveRight(List<GameObjectAbstract> gameObjects) {
         double newX = x + 10;
         setTarget(newX, y);
     }
 
-    public void moveUp(List<GameObject> gameObjects) {
+    public void moveUp(List<GameObjectAbstract> gameObjects) {
         double newY = y - 10;
         setTarget(x, newY);
     }
 
-    public void moveDown(List<GameObject> gameObjects) {
+    public void moveDown(List<GameObjectAbstract> gameObjects) {
         double newY = y + 10;
         setTarget(x, newY);
     }
@@ -104,7 +104,7 @@ public class Player implements Renderable {
         this.targetY = targetY;
     }
 
-    public void update(List<GameObject> gameObjects) {
+    public void update(List<GameObjectAbstract> gameObjects) {
         if (targetX == null || targetY == null) return;
 
         double dx = targetX - x;
@@ -167,10 +167,10 @@ public class Player implements Renderable {
         return new Rectangle2D(footX, footY, footWidth, footHeight);
     }
 
-    private boolean canMoveTo(double newX, double newY, List<GameObject> gameObjects) {
+    private boolean canMoveTo(double newX, double newY, List<GameObjectAbstract> gameObjects) {
         Rectangle2D futureBounds = getBoundsAt(newX, newY);
 
-        for (GameObject object : gameObjects) {
+        for (GameObjectAbstract object : gameObjects) {
             if (object instanceof SolidObject solid) {
                 if (solid.getBounds().intersects(futureBounds)) {
                     return false; // Blocked
