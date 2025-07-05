@@ -21,9 +21,8 @@ public class InventoryDAO extends BaseDAO<Inventory> {
     }
 
     public int addInventory(Inventory inventory) {
-        String query = "INSERT INTO \"Inventory\" (\"id\", \"Character_id\", \"Resource_id\", \"Tool_id\", \"Meal_id\", \"Quantity\") VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO \"Inventory\" (\"Character_id\", \"Resource_id\", \"Tool_id\", \"Meal_id\", \"Quantity\") VALUES (?, ?, ?, ?, ?)";
         return executeUpdate(query,
-                inventory.getId(),
                 inventory.getCharacterId(),
                 inventory.getResourceId(),
                 inventory.getToolId(),
@@ -56,5 +55,11 @@ public class InventoryDAO extends BaseDAO<Inventory> {
     public List<Inventory> getAllInventories() {
         String query = "SELECT * FROM \"Inventory\"";
         return findAll(query);
+    }
+
+    public Inventory getByCharacterAndResource(int characterId, int resourceId) {
+        String query = "SELECT * FROM \"Inventory\" WHERE \"Character_id\" = ? AND \"Resource_id\" = ?";
+        List<Inventory> inventories = findAll(query, characterId, resourceId);
+        return inventories.isEmpty() ? null : inventories.get(0);
     }
 }

@@ -21,15 +21,21 @@ public class ResourceDAO extends BaseDAO<Resource> {
         return executeUpdate(query, resource.getId(), resource.getName());
     }
 
-    public int deleteResource(Long id) {
+    public int deleteResource(int id) {
         String query = "DELETE FROM \"Resource\" WHERE \"id\" = ?";
         return executeUpdate(query, id);
     }
 
-    public Resource getResourceById(Long id) {
+    public Resource getResourceById(int id) {
         String query = "SELECT * FROM \"Resource\" WHERE \"id\" = ?";
         List<Resource> resources = findAll(query, id);
         return resources.isEmpty() ? null : resources.get(0);
+    }
+
+    public int getIdByName(String name) {
+        String query = "SELECT \"id\" FROM \"Resource\" WHERE \"Name\" = ?";
+        Number result = findSingleValue(query, name); // returns Long from JDBC
+        return result != null ? result.intValue() : -1;
     }
 
     public int updateResource(Resource resource) {

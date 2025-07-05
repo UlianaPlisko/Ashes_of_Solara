@@ -1,8 +1,11 @@
 package com.example.mygame.game.player;
 
+import com.example.mygame.dao.InventoryDAO;
+import com.example.mygame.dao.ResourceDAO;
 import com.example.mygame.game.Objects.GameObjectAbstract;
 import com.example.mygame.game.Objects.SolidObject;
 import com.example.mygame.game.Renderable;
+import com.example.mygame.models.Inventory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -178,5 +181,39 @@ public class Player implements Renderable {
             }
         }
         return true; // No collisions
+    }
+
+    public void addInInventory(String resourceName) {
+        ResourceDAO resourceDAO = new ResourceDAO();
+        InventoryDAO inventoryDAO = new InventoryDAO();
+
+        // Step 1: Get the Resource ID from name
+        int resourceId = resourceDAO.getIdByName(resourceName);
+        if (resourceId == -1) {
+            System.err.println("Resource not found: " + resourceName);
+            return;
+        }
+
+        // Step 2: Check if already in inventory
+        Inventory existing = inventoryDAO.getByCharacterAndResource(1, resourceId);
+
+        if (existing != null) {
+            // Update quantity
+            existing.setQuantity(existing.getQuantity() + 1);
+            inventoryDAO.updateInventory(existing);
+            System.out.println("Inventory updated: +1 " + resourceName);
+        } else {
+            // Create new inventory entry
+            Inventory newInv = new Inventory(
+                    0,               // id (auto-generated)
+                    1,
+                    resourceId,
+                    0,               // Tool_id
+                    0,               // Meal_id
+                    1                // Quantity
+            );
+            inventoryDAO.addInventory(newInv);
+            System.out.println("Added new " + resourceName + " to inventory");
+        }
     }
 }

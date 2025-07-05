@@ -181,7 +181,7 @@ public class GameController {
                             for (GameObjectAbstract obj : gameObjects) {
                                 if (obj instanceof Bush bush) {
                                     if (!bush.isPicked() && bush.isPlayerNear(player.getX(), player.getY())) {
-                                        bush.interact();
+                                        bush.interact(player);
                                         break; // pick only one bush at a time
                                     }
                                 }

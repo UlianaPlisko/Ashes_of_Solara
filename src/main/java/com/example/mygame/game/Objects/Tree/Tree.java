@@ -3,6 +3,7 @@ package com.example.mygame.game.Objects.Tree;
 import com.example.mygame.game.Objects.GameObjectAbstract;
 import com.example.mygame.game.Objects.GameObjectConstants;
 import com.example.mygame.game.Objects.SolidObject;
+import com.example.mygame.game.player.Player;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
@@ -26,7 +27,7 @@ public class Tree extends GameObjectAbstract implements SolidObject {
     }
 
     @Override
-    public void interact() {
+    public void interact(Player player) {
         System.out.println("Chopping tree ");
     }
 

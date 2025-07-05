@@ -1,6 +1,7 @@
 package com.example.mygame.game.Objects;
 
 import com.example.mygame.game.Renderable;
+import com.example.mygame.game.player.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public abstract class GameObjectAbstract implements Renderable {
         this.height = height;
     }
 
-    public abstract void interact(); // override in subclasses
+    public abstract void interact(Player player); // override in subclasses
 
     public void render(GraphicsContext gc, double cameraX, double cameraY) {
         gc.drawImage(image, x - cameraX, y - cameraY, width, height);
