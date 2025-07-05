@@ -12,11 +12,14 @@ import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -90,28 +93,39 @@ public class GameController {
         }
         gc = gameCanvas.getGraphicsContext2D();
         try {
-            URL resource = getClass().getResource("/com/example/mygame/img/dessert_test.png");
-            if (resource == null) {
-                System.err.println("Image resource not found!");
+            // Load map image
+            URL mapResource = getClass().getResource("/com/example/mygame/img/dessert_test.png");
+            if (mapResource == null) {
+                System.err.println("Map image resource not found!");
                 return;
             }
-            mapImage = new Image(resource.toExternalForm());
+            mapImage = new Image(mapResource.toExternalForm());
+
+            // Load inventory image
+            URL inventoryResource = getClass().getResource("/com/example/mygame/img/inventory_empty.png");
+            if (inventoryResource == null) {
+                System.err.println("Inventory image resource not found!");
+                return;
+            }
+            Image inventoryImage = new Image(inventoryResource.toExternalForm());
+
+            ImageView inventoryView = new ImageView(inventoryImage);
+            inventoryView.setPreserveRatio(true);
+            inventoryView.setFitWidth(800);
+
+            StackPane.setAlignment(inventoryView, Pos.BOTTOM_CENTER);
+            StackPane.setMargin(inventoryView, new Insets(10));
+
+            canvasContainer.getChildren().add(inventoryView);
+
         } catch (Exception e) {
             System.err.println("Failed to load image: " + e.getMessage());
             e.printStackTrace();
-            return;
         }
 
         pageSwitch = new SwitchPage();
 
         player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
-//        Tree tree1 = new Tree(player.getX() + 100, player.getY());  // Place near player
-//        Tree tree2 = new Tree(player.getX() - 200, player.getY() + 150);
-//        Bush bush1 = new Bush(player.getX() - 300, player.getY() + 150);
-//
-//        gameObjects.add(tree1);
-//        gameObjects.add(tree2);
-//        gameObjects.add(bush1);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
@@ -162,6 +176,16 @@ public class GameController {
                         case DOWN:
                         case S:
                             player.moveDown(gameObjects);
+                            break;
+                        case SPACE:
+                            for (GameObjectAbstract obj : gameObjects) {
+                                if (obj instanceof Bush bush) {
+                                    if (!bush.isPicked() && bush.isPlayerNear(player.getX(), player.getY())) {
+                                        bush.interact();
+                                        break; // pick only one bush at a time
+                                    }
+                                }
+                            }
                             break;
                     }
                 });

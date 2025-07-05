@@ -10,6 +10,7 @@ public class GameObjectConstants {
 
 
     public static final String JUICY_BERRY_BUSH = "/com/example/mygame/img/bush/juicy_berry_bush.png";
+    public static final String JUICY_BERRY_BUSH_AFTER = "/com/example/mygame/img/bush/juicy_berry_bush_picked.png";
     public static final double JUICY_BERRY_BUSH_HEIGHT = 32.0 * 4;
     public static final double JUICY_BERRY_BUSH_WIDTH = 32.0 * 2.5;
 

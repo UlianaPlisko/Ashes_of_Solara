@@ -12,6 +12,7 @@ public abstract class GameObjectAbstract implements Renderable {
 
     @Getter
     protected double x, y;
+    @Setter
     protected Image image;
     @Getter
     protected double width, height;
@@ -65,6 +66,16 @@ public abstract class GameObjectAbstract implements Renderable {
             return ((Double) field.get(null)).intValue();
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalArgumentException("Unknown height for name: " + name, e);
+        }
+    }
+
+    protected static Image getImageAfterForName(String name) {
+        try {
+            Field field = GameObjectConstants.class.getField(name + "_AFTER");
+            String imageName = (String) field.get(null);
+            return new Image(GameObjectAbstract.class.getResource(imageName).toExternalForm());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalArgumentException("Unknown image for name: " + name, e);
         }
     }
 }

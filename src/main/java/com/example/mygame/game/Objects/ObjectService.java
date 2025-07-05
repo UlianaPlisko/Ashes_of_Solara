@@ -1,6 +1,7 @@
 package com.example.mygame.game.Objects;
 
 import com.example.mygame.dao.GameObjectDAO;
+import com.example.mygame.game.Objects.Bush.Bush;
 import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.models.GameObject;
 
@@ -24,6 +25,9 @@ public class ObjectService {
             switch (gameObject.getType()) {
                 case "tree":
                     gameObjects.add(new Tree(gameObject.getName(), gameObject.getX(), gameObject.getY()));
+                    break;
+                case "bush":
+                    gameObjects.add(new Bush(gameObject.getName(), gameObject.getX(), gameObject.getY()));
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown GameObject type: " + gameObject.getType());
