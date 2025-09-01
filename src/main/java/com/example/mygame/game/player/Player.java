@@ -205,12 +205,12 @@ public class Player implements Renderable {
         } else {
             // Create new inventory entry
             Inventory newInv = new Inventory(
-                    0,               // id (auto-generated)
+                    0,
                     1,
                     resourceId,
-                    0,               // Tool_id
-                    0,               // Meal_id
-                    1                // Quantity
+                    0,
+                    0,
+                    1
             );
             inventoryDAO.addInventory(newInv);
             System.out.println("Added new " + resourceName + " to inventory");

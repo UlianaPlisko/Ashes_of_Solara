@@ -57,6 +57,11 @@ public class InventoryDAO extends BaseDAO<Inventory> {
         return findAll(query);
     }
 
+    public List<Inventory> getInventoriesByCharacterId(int characterId) {
+        String query = "SELECT * FROM \"Inventory\" WHERE \"Character_id\" = ?";
+        return findAll(query, characterId);
+    }
+
     public Inventory getByCharacterAndResource(int characterId, int resourceId) {
         String query = "SELECT * FROM \"Inventory\" WHERE \"Character_id\" = ? AND \"Resource_id\" = ?";
         List<Inventory> inventories = findAll(query, characterId, resourceId);

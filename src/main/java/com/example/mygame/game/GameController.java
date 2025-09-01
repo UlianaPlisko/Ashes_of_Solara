@@ -1,9 +1,11 @@
 package com.example.mygame.game;
 
+import com.example.mygame.game.Inventory.InventoryService;
 import com.example.mygame.game.Objects.Bush.Bush;
 import com.example.mygame.game.Objects.GameObjectAbstract;
 import com.example.mygame.game.Objects.ObjectService;
 import com.example.mygame.game.Objects.Tree.Tree;
+import com.example.mygame.game.Resource.ResourceDisplay;
 import com.example.mygame.game.player.Player;
 import com.example.mygame.game.player.PlayerConstants;
 import com.example.mygame.utils.InternetMonitor;
@@ -22,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,6 +52,8 @@ public class GameController {
     Label hungerLabel;
     @FXML
     Button settingsButton;
+
+    private HBox inventoryOverlay = new HBox();
 
     @FXML
     private VBox dialogOverlay;
@@ -123,9 +128,19 @@ public class GameController {
             e.printStackTrace();
         }
 
+        inventoryOverlay.setAlignment(Pos.BOTTOM_CENTER);
+        inventoryOverlay.setSpacing(10);
+        inventoryOverlay.setMouseTransparent(true); // So clicks pass through
+        StackPane.setAlignment(inventoryOverlay, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(inventoryOverlay, new Insets(20));
+
+        canvasContainer.getChildren().add(inventoryOverlay);
+
         pageSwitch = new SwitchPage();
 
         player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
+
+        displayInventory(1);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
         gameCanvas.heightProperty().bind(gamePage.heightProperty());
@@ -182,6 +197,7 @@ public class GameController {
                                 if (obj instanceof Bush bush) {
                                     if (!bush.isPicked() && bush.isPlayerNear(player.getX(), player.getY())) {
                                         bush.interact(player);
+                                        displayInventory(1);
                                         break; // pick only one bush at a time
                                     }
                                 }
@@ -287,5 +303,30 @@ public class GameController {
         }
 
         gc.restore();
+    }
+
+    private void displayInventory(int characterId) {
+        InventoryService inventoryService = new InventoryService();
+        List<ResourceDisplay> inventoryItems = inventoryService.getInventoryDisplayItems(characterId);
+
+        inventoryOverlay.getChildren().clear(); // Clear old items
+
+        for (ResourceDisplay item : inventoryItems) {
+            ImageView itemImage = new ImageView(item.getImage());
+            itemImage.setFitWidth(40);
+            itemImage.setPreserveRatio(true);
+
+            Label quantityLabel = new Label(String.valueOf(item.getQuantity()));
+            quantityLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px; -fx-background-color: rgba(0, 0, 0, 0.6);");
+
+            StackPane itemStack = new StackPane(itemImage, quantityLabel);
+            StackPane.setAlignment(itemImage, Pos.BOTTOM_RIGHT); // same as label
+            StackPane.setAlignment(quantityLabel, Pos.BOTTOM_RIGHT);
+
+            StackPane.setMargin(itemImage, new Insets(0, 3, 3, 0));
+            StackPane.setMargin(quantityLabel, new Insets(0, 3, 3, 0));
+
+            inventoryOverlay.getChildren().add(itemStack);
+        }
     }
 }
