@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 
 public class Bush extends GameObjectAbstract {
     private Image emptyImage;
-    private boolean isPicked;
 
     public Bush(String name, double x, double y) {
         super(x, y,
@@ -27,16 +26,5 @@ public class Bush extends GameObjectAbstract {
             setImage(emptyImage);
             player.addInInventory("Juicy_Berries");
         }
-    }
-
-    public boolean isPicked() {
-        return isPicked;
-    }
-
-    public boolean isPlayerNear(double playerX, double playerY) {
-        double dx = playerX - getX();
-        double dy = playerY - getY();
-        double distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < 30; // you can adjust this range
     }
 }

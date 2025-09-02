@@ -20,6 +20,7 @@ public abstract class GameObjectAbstract implements Renderable {
     @Setter
     @Getter
     protected boolean solid;
+    protected boolean isPicked;
 
     public GameObjectAbstract(double x, double y, Image image, double width, double height ) {
         this.x = x;
@@ -78,5 +79,16 @@ public abstract class GameObjectAbstract implements Renderable {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalArgumentException("Unknown image for name: " + name, e);
         }
+    }
+
+    public boolean isPlayerNear(double playerX, double playerY) {
+        double dx = playerX - getX();
+        double dy = playerY - getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < 50;
+    }
+
+    public boolean isPicked() {
+        return isPicked;
     }
 }
