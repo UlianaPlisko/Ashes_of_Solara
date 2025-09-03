@@ -35,9 +35,14 @@ public abstract class GameObjectAbstract implements Renderable {
 
     public abstract void interact(Player player);
 
-    public void render(GraphicsContext gc, double cameraX, double cameraY) {
-        if(isRenderable) {
-            gc.drawImage(image, x - cameraX, y - cameraY, width, height);
+    public void render(GraphicsContext gc, double cameraX, double cameraY, double zoom) {
+        if (isRenderable && image != null) {
+            double renderX = (x - cameraX) * zoom;
+            double renderY = (y - cameraY) * zoom;
+            double renderWidth = width * zoom;
+            double renderHeight = height * zoom;
+
+            gc.drawImage(image, renderX, renderY, renderWidth, renderHeight);
         }
     }
 

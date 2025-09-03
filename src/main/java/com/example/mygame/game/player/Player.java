@@ -156,7 +156,7 @@ public class Player implements Renderable {
         if (y > mapHeight) y = mapHeight;
     }
 
-    public void render(GraphicsContext gc, double cameraX, double cameraY) {
+    public void render(GraphicsContext gc, double cameraX, double cameraY, double zoom) {
         gc.drawImage(currentImage, x - cameraX, y - cameraY, PlayerConstants.PLAYER_WIDTH, PlayerConstants.PLAYER_HEIGHT);
     }
 

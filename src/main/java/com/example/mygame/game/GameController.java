@@ -229,12 +229,20 @@ public class GameController {
             }
         });
 
+        gamePage.setOnScroll(event -> {
+            double delta = event.getDeltaY();
+            if (delta > 0) camera.setZoom(camera.getZoom() * 1.1);
+            else camera.setZoom(camera.getZoom() / 1.1);
+            update();
+            render();
+        });
+
         gamePage.setOnMouseClicked(event -> {
             double clickX = event.getX();
             double clickY = event.getY();
 
-            double worldX = clickX + camera.getX();
-            double worldY = clickY + camera.getY();
+            double worldX = camera.getX() + clickX / camera.getZoom();
+            double worldY = camera.getY() + clickY / camera.getZoom();
 
             player.setTarget(worldX, worldY);
         });
@@ -262,6 +270,7 @@ public class GameController {
     }
 
     public void update() {
+        camera.updateZoom();
         camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
         player.update(gameObjects);
@@ -284,48 +293,62 @@ public class GameController {
         gc.setTransform(1, 0, 0, 1, 0, 0);
         gc.drawImage(
                 mapImage,
-                camera.getX(), camera.getY(), camera.getWidth(), camera.getHeight(),
+                camera.getX(), camera.getY(), camera.getWidth() / camera.getZoom(), camera.getHeight() / camera.getZoom(),
                 0, 0, gameCanvas.getWidth(), gameCanvas.getHeight()
         );
 
         List<Renderable> renderables = new ArrayList<>();
+
         for (GameObjectAbstract object : gameObjects) {
             renderables.add(new Renderable() {
                 @Override
                 public double getY() {
-                    return object.getY() + object.getHeight(); // Use base y-coordinate
+                    return object.getY() + object.getHeight(); // Base y-coordinate for sorting
                 }
 
                 @Override
-                public void render(GraphicsContext gc, double cameraX, double cameraY) {
-                    object.render(gc, cameraX, cameraY);
+                public void render(GraphicsContext gc, double cameraX, double cameraY, double zoom) {
+                    object.render(gc, cameraX, cameraY, zoom);
                 }
             });
         }
-        // Add player as a renderable
+
         renderables.add(new Renderable() {
             @Override
             public double getY() {
-                return player.getY() + PlayerConstants.PLAYER_HEIGHT; // Use base y-coordinate
+                return player.getY() + PlayerConstants.PLAYER_HEIGHT; // Base y-coordinate
             }
 
             @Override
-            public void render(GraphicsContext gc, double cameraX, double cameraY) {
+            public void render(GraphicsContext gc, double cameraX, double cameraY, double zoom) {
                 if (player.getCurrentImage() != null) {
-                    player.render(gc, cameraX, cameraY);
+                    gc.drawImage(
+                            player.getCurrentImage(),
+                            (player.getX() - cameraX) * zoom,
+                            (player.getY() - cameraY) * zoom,
+                            PlayerConstants.PLAYER_WIDTH * zoom,
+                            PlayerConstants.PLAYER_HEIGHT * zoom
+                    );
                 } else {
-                    System.err.println("Player image is null, drawing red dot at (" + (player.getX() - cameraX) + ", " + (player.getY() - cameraY) + ")");
+                    System.err.println("Player image is null, drawing red dot at (" +
+                            (player.getX() - cameraX) * zoom + ", " +
+                            (player.getY() - cameraY) * zoom + ")");
                     gc.setFill(Color.RED);
-                    gc.fillRect(player.getX() - cameraX, player.getY() - cameraY, 32, 32);
+                    gc.fillRect(
+                            (player.getX() - cameraX) * zoom,
+                            (player.getY() - cameraY) * zoom,
+                            32 * zoom,
+                            32 * zoom
+                    );
                 }
             }
         });
 
         renderables.sort(Comparator.comparingDouble(Renderable::getY));
 
-        // Render all objects in sorted order with debug output
+
         for (Renderable renderable : renderables) {
-            renderable.render(gc, camera.getX(), camera.getY());
+            renderable.render(gc, camera.getX(), camera.getY(), camera.getZoom());
         }
 
         gc.restore();
@@ -379,7 +402,7 @@ public class GameController {
 
         double paddingLeft  = 35;
         double paddingBottom = -25;
-        double shiftX =45;
+        double shiftX =42;
 
         double itemH = 50;
 

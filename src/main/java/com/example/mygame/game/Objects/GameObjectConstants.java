@@ -18,5 +18,9 @@ public class GameObjectConstants {
     public static final double TWIGS_WIDTH = 32.0 * 1.5;
     public static final double TWIGS_HEIGHT = 32.0 * 1;
 
+    public static final String FLINT = "/com/example/mygame/img/flint/Flint.png";
+    public static final double FLINT_WIDTH = 32.0 * 1.5;
+    public static final double FLINT_HEIGHT = 32.0 * 1;
+
     private void GameObjectConstants() {}
 }
