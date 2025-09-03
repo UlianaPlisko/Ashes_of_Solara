@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ResourceDisplay {
     private Image image;
     private int quantity;
-    private int inventorySlot; // e.g. 0 = top-left, 1 = next cell, etc.
+    private int inventorySlot;
 
     public ResourceDisplay(Image image, int quantity, int inventorySlot) {
         this.image = image;

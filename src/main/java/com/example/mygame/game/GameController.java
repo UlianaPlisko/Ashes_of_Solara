@@ -76,6 +76,7 @@ public class GameController {
     private SwitchPageInterface pageSwitch;
     private ImageView inventoryView;
     private Pane inventoryItemsLayer = new Pane();
+    private final InventoryService inventoryService = new InventoryService();
 
     public void initialize() {
 
@@ -313,7 +314,6 @@ public class GameController {
     }
 
     private void displayInventory(int characterId) {
-        InventoryService inventoryService = new InventoryService();
         List<ResourceDisplay> inventoryItems = inventoryService.getInventoryDisplayItems(characterId);
 
         inventoryItemsLayer.getChildren().clear();
@@ -346,6 +346,8 @@ public class GameController {
             itemNode.setMinSize(50, 50);
             itemNode.setMaxSize(50, 50);
 
+            itemNode.setUserData(item);
+
             inventoryItemsLayer.getChildren().add(itemNode);
         }
 
@@ -359,19 +361,20 @@ public class GameController {
 
         double paddingLeft  = 35;
         double paddingBottom = -25;
-        double shiftX = 35;
+        double shiftX =45;
 
         double itemH = 50;
 
         double startX = b.getMinX() + paddingLeft;
         double baseY  = b.getMaxY() - paddingBottom - itemH;
 
-        int i = 0;
         for (javafx.scene.Node node : inventoryItemsLayer.getChildren()) {
-            double x = startX + i * shiftX;
-            double y = baseY;
-            node.relocate(x, y);
-            i++;
+            if (node.getUserData() instanceof ResourceDisplay item) {
+                int slot = item.getInventorySlot();
+                double x = startX + (slot - 1) * shiftX;
+                double y = baseY;
+                node.relocate(x, y);
+            }
         }
     }
 }

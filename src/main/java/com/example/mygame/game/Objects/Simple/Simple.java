@@ -13,11 +13,14 @@ public class Simple extends GameObjectAbstract {
                 getHeightForName(name));
 
         this.isPicked = false;
+        this.name = name;
     }
 
     @Override
     public void interact(Player player) {
-        System.out.println("collecting twigs");
+        isRenderable = false;
+        isPicked = true;
+        player.addInInventory(getName());
     }
 }
 

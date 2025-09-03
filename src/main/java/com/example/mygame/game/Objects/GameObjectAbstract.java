@@ -13,6 +13,8 @@ public abstract class GameObjectAbstract implements Renderable {
 
     @Getter
     protected double x, y;
+    @Getter
+    protected String name;
     @Setter
     protected Image image;
     @Getter
@@ -21,6 +23,7 @@ public abstract class GameObjectAbstract implements Renderable {
     @Getter
     protected boolean solid;
     protected boolean isPicked;
+    protected boolean isRenderable = true;
 
     public GameObjectAbstract(double x, double y, Image image, double width, double height ) {
         this.x = x;
@@ -30,10 +33,12 @@ public abstract class GameObjectAbstract implements Renderable {
         this.height = height;
     }
 
-    public abstract void interact(Player player); // override in subclasses
+    public abstract void interact(Player player);
 
     public void render(GraphicsContext gc, double cameraX, double cameraY) {
-        gc.drawImage(image, x - cameraX, y - cameraY, width, height);
+        if(isRenderable) {
+            gc.drawImage(image, x - cameraX, y - cameraY, width, height);
+        }
     }
 
     public boolean intersects(double px, double py, double pw, double ph) {

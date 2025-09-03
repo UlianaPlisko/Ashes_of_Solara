@@ -17,6 +17,7 @@ public class Bush extends GameObjectAbstract {
 
         this.emptyImage = getImageAfterForName(name);
         this.isPicked = false;
+        this.name = name;
     }
 
     @Override

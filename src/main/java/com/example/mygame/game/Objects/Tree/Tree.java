@@ -24,6 +24,7 @@ public class Tree extends GameObjectAbstract implements SolidObject {
         this.trunkOffsetY = height - 10;    // near the bottom of the image
         this.trunkWidth = 4;                // narrow trunk
         this.trunkHeight = 4;
+        this.name = name;
     }
 
     @Override

@@ -9,13 +9,18 @@ import com.example.mygame.models.Resource;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InventoryService {
 
     private final InventoryDAO inventoryDAO = new InventoryDAO();
     private final ResourceDAO resourceDAO = new ResourceDAO();
     private static final int MAX_SLOTS = 15;
+
+    private final Map<Integer, Integer> slotAssignments = new HashMap<>();
+    private int nextAvailableSlot = 1;
 
     public List<ResourceDisplay> getInventoryDisplayItems(int characterId) {
         List<Inventory> rawInventory = inventoryDAO.getInventoriesByCharacterId(characterId);
@@ -36,12 +41,21 @@ public class InventoryService {
         }
 
         List<ResourceDisplay> displayItems = new ArrayList<>();
-        int slotCounter = 1;
 
         for (InventoryItem item : inventoryItems) {
+            int resourceId = item.getId();
+
+            // Assign stable slot if not yet assigned
+            int slot = slotAssignments.computeIfAbsent(resourceId, id -> {
+                if (nextAvailableSlot > MAX_SLOTS) {
+                    throw new InventorySlotLimitExceededException("No more free slots in inventory!");
+                }
+                return nextAvailableSlot++;
+            });
+
             Image image = loadImageForName(item.getName());
             int quantity = item.getQuantity();
-            int slot = slotCounter++;
+
             displayItems.add(new ResourceDisplay(image, quantity, slot));
         }
 
