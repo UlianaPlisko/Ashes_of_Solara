@@ -1,5 +1,8 @@
 package com.example.mygame.login;
 
+import com.example.mygame.game.GameController;
+import com.example.mygame.game.player.PlayerService;
+import com.example.mygame.game.player.Session;
 import com.example.mygame.models.User;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
@@ -26,8 +29,6 @@ public class LoginController {
     PasswordField passwordField;
     @FXML
     Hyperlink signupLink;
-    
-
 
     private SwitchPageInterface pageSwitch;
     private UserService userService;
@@ -59,22 +60,19 @@ public class LoginController {
                 return;
             }
 
-            // Proceed to game page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/mygame/pages/game-view.fxml"));
-            Parent root;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to load game page", e);
-            }
+            PlayerService characterService = new PlayerService();
+            com.example.mygame.models.Character character =
+                    characterService.getCharacterForUser(userService.getUserId(user));
+
+            Session.setCurrentCharacter(character);
 
             if (pageSwitch != null && loginPage != null) {
                 pageSwitch.goGame(loginPage);
             }
-        } catch (IllegalArgumentException e) {
-            showAlert(Alert.AlertType.ERROR, "Input Error", "Invalid input.");
+
+
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred during login.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Unexpected error.");
             e.printStackTrace();
         }
     }

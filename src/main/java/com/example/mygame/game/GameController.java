@@ -1,5 +1,6 @@
 package com.example.mygame.game;
 
+import com.example.mygame.game.HUD.HudManager;
 import com.example.mygame.game.Inventory.InventoryService;
 import com.example.mygame.game.Objects.Bush.Bush;
 import com.example.mygame.game.Objects.GameObjectAbstract;
@@ -8,6 +9,7 @@ import com.example.mygame.game.Objects.Tree.Tree;
 import com.example.mygame.game.Resource.ResourceDisplay;
 import com.example.mygame.game.player.Player;
 import com.example.mygame.game.player.PlayerConstants;
+import com.example.mygame.game.player.Session;
 import com.example.mygame.utils.InternetMonitor;
 import com.example.mygame.utils.camera.Camera;
 import com.example.mygame.utils.switcher.SwitchPage;
@@ -27,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import lombok.Setter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -71,12 +74,14 @@ public class GameController {
     private Image mapImage;
     private Camera camera;
     private Player player;
+    private com.example.mygame.models.Character character;
     private List<GameObjectAbstract> gameObjects = new ArrayList<>();
     private ObjectService objectService;
     private SwitchPageInterface pageSwitch;
     private ImageView inventoryView;
     private Pane inventoryItemsLayer = new Pane();
     private final InventoryService inventoryService = new InventoryService();
+    private HudManager hudManager;
 
     public void initialize() {
 
@@ -146,10 +151,18 @@ public class GameController {
 
         canvasContainer.getChildren().add(inventoryOverlay);
 
+        hudManager = new HudManager();
+        hudManager.attachTo(canvasContainer);
+
         pageSwitch = new SwitchPage();
 
-        player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
-
+        character = Session.getCurrentCharacter();
+        if (character != null) {
+            player = new Player(character.getX(), character.getY(), mapImage.getWidth(), mapImage.getHeight());
+            hudManager.updateHUD(character.getHealth(), character.getHunger(), character.getSanity());
+        } else {
+            player = new Player(mapImage.getWidth() / 2, mapImage.getHeight() / 2, mapImage.getWidth(), mapImage.getHeight());
+        }
         displayInventory(1);
 
         gameCanvas.widthProperty().bind(gamePage.widthProperty());
@@ -167,7 +180,7 @@ public class GameController {
             camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
 
             update();
-            render(); // now that everything is properly initialized
+            render();
         });
 
         gameCanvas.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -252,8 +265,13 @@ public class GameController {
         camera.centerOn(player.getX(), player.getY());
         camera.clampToMap(mapImage.getWidth(), mapImage.getHeight());
         player.update(gameObjects);
-    }
 
+        hudManager.updateHUD(character.getHealth(), character.getHunger(), character.getSanity());
+
+        character.setX((int) player.getX());
+        character.setY((int) player.getY());
+        // Optionally: characterService.saveCharacter(character);
+    }
     public void render() {
         if (gc == null || mapImage == null) {
             System.err.println("Cannot render: gc or mapImage is null");

@@ -87,4 +87,8 @@ public class UserService {
         characterDAO.addCharacter(character);
         return user;
     }
+
+    public int getUserId(User user) {
+        return userDAO.getIdByUsername(user.getUsername());
+    }
 }

@@ -24,7 +24,7 @@ public class CharacterDAO extends BaseDAO<Character> {
                 rs.getInt("MaxHunger"),
                 rs.getInt("Hunger"),
                 rs.getInt("x"),
-                rs.getInt("ybigint")
+                rs.getInt("y")
         );
     }
 
