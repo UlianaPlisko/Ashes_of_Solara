@@ -1,4 +1,4 @@
-package com.example.mygame.exceptions;
+package com.example.mygame.utils.exceptions;
 
 /**
  * Custom exception for data access related errors.

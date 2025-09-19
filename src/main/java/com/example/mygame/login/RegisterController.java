@@ -1,10 +1,9 @@
 package com.example.mygame.login;
 
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 import com.example.mygame.models.User;
 import com.example.mygame.utils.switcher.SwitchPage;
 import com.example.mygame.utils.switcher.SwitchPageInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;

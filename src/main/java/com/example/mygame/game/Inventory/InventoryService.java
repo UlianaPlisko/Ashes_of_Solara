@@ -2,7 +2,7 @@ package com.example.mygame.game.Inventory;
 
 import com.example.mygame.dao.InventoryDAO;
 import com.example.mygame.dao.ResourceDAO;
-import com.example.mygame.exceptions.InventorySlotLimitExceededException;
+import com.example.mygame.utils.exceptions.InventorySlotLimitExceededException;
 import com.example.mygame.game.Resource.ResourceDisplay;
 import com.example.mygame.models.Inventory;
 import com.example.mygame.models.Resource;

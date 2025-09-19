@@ -2,12 +2,10 @@ package com.example.mygame.login;
 
 import com.example.mygame.dao.CharacterDAO;
 import com.example.mygame.dao.UserDAO;
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 import com.example.mygame.models.User;
 import com.example.mygame.models.Character;
 import org.mindrot.jbcrypt.BCrypt;
-
-import java.util.List;
 
 public class UserService {
     private final UserDAO userDAO;

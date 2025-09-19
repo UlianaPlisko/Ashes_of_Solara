@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<BorderPane fx:id="splashPage"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.mygame.login.SplashController">
+
+    <center>
+        <StackPane alignment="CENTER">
+            <!-- Background Image (stretched to fill) -->
+            <ImageView fx:id="backgroundImage"
+                       preserveRatio="false"
+                       pickOnBounds="true"
+                       smooth="true"/>
+
+            <!-- Button Layer centered over the image -->
+            <VBox alignment="CENTER" spacing="20">
+                <Button fx:id="startButton"
+                        text="Start Game"
+                        styleClass="menu-button start-button"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

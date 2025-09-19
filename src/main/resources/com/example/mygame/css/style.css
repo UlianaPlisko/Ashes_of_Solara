@@ -1,0 +1,27 @@
+.menu-button {
+    -fx-background-color: transparent;      /* we’ll use background image */
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 40;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0.3, 0, 3);
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+    -fx-transition: all 0.3s ease; /* not natively supported, but hover trick works */
+}
+
+/* Hover effect - grow */
+.menu-button:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.start-button {
+    -fx-background-image: url("/com/example/mygame/img/ui/start_button.png");
+    -fx-text-fill: #ffeb3b;
+}

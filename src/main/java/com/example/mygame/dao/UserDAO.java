@@ -1,6 +1,6 @@
 package com.example.mygame.dao;
 
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 import com.example.mygame.models.User;
 
 import java.sql.ResultSet;

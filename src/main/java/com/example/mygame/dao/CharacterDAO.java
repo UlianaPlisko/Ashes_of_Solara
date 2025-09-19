@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 import com.example.mygame.models.Character;
 
 /**

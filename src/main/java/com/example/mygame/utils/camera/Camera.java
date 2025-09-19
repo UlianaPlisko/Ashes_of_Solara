@@ -19,9 +19,9 @@ public class Camera {
     @Setter
     private double smoothing = 0.4;
 
-    private double zoom = 1.0;        // current zoom
-    private double targetZoom = 1.0;  // desired zoom
-    private double zoomSmoothing = 0.1; // how quickly to interpolate zoom
+    private double zoom = 1.0;
+    private double targetZoom = 1.0;
+    private double zoomSmoothing = 0.1;
 
     private boolean firstUpdate = true;
 

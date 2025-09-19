@@ -1,8 +1,7 @@
 package com.example.mygame.db;
 
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 import lombok.Getter;
-import lombok.Value;
 
 import java.sql.*;
 

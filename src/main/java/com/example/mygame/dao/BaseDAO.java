@@ -2,7 +2,7 @@ package com.example.mygame.dao;
 
 
 import com.example.mygame.db.DatabaseWrapper;
-import com.example.mygame.exceptions.DataAccessException;
+import com.example.mygame.utils.exceptions.DataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

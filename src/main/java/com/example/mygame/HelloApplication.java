@@ -3,6 +3,7 @@ package com.example.mygame;
 import com.example.mygame.db.DatabaseWrapper;
 import com.example.mygame.game.GameManager;
 import com.example.mygame.login.LoginController;
+import com.example.mygame.login.SplashController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,18 +13,26 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
     @Getter
     private static Stage primaryStage;
-    private static LoginController controller;
+    private static SplashController controller;
 
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/mygame/pages/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/mygame/pages/splash.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         controller = fxmlLoader.getController();
+
+        scene.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getResource("/com/example/mygame/css/style.css")
+                ).toExternalForm()
+        );
+
         stage.setTitle("My Game");
         stage.setFullScreen(true);
 
