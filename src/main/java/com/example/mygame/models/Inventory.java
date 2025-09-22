@@ -10,6 +10,6 @@ public class Inventory {
     private int characterId;
     private int resourceId;
     private int toolId;
-    private int mealId;
     private int quantity;
+    private int current_uses;
 }

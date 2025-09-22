@@ -13,6 +13,4 @@ public class GameObject {
     private int id;
     private String Name;
     private String Type;
-    private int x;
-    private int y;
 }

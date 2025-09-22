@@ -101,7 +101,7 @@ public class UserDAO extends BaseDAO<User> {
 
     public int getIdByUsername(String username) {
         String query = "SELECT \"id\" FROM \"User\" WHERE \"Username\" = ?";
-        Integer id = findSingleValue(query, username);
-        return id != null ? id : -1;
+        Long id = findSingleValue(query, username);
+        return id != null ? id.intValue() : -1;
     }
 }

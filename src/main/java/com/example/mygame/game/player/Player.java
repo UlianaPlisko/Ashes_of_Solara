@@ -205,7 +205,7 @@ public class Player implements Renderable {
                     1,
                     resourceId,
                     0,
-                    0,
+                    1,
                     1
             );
             inventoryDAO.addInventory(newInv);

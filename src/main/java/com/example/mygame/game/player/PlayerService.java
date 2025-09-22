@@ -8,7 +8,7 @@ public class PlayerService {
 
     public Character getCharacterForUser(int userId) {
         // assuming userId = character.userId
-        return characterDAO.getCharacterById((long) userId);
+        return characterDAO.getCharacterByUserId((long) userId);
     }
 
     public void saveCharacter(Character character) {

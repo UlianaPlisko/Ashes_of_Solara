@@ -79,7 +79,7 @@ public class UserService {
                 100, 100,                // maxHealth, health
                 100, 100,                // maxSanity, sanity
                 100, 100,                // maxHunger, hunger
-                0, 0                     // x, y position
+                2000, 2500                     // x, y position
         );
 
         characterDAO.addCharacter(character);

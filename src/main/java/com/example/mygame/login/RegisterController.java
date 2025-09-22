@@ -1,5 +1,7 @@
 package com.example.mygame.login;
 
+import com.example.mygame.game.player.PlayerService;
+import com.example.mygame.game.player.Session;
 import com.example.mygame.utils.exceptions.DataAccessException;
 import com.example.mygame.models.User;
 import com.example.mygame.utils.switcher.SwitchPage;
@@ -56,6 +58,13 @@ public class RegisterController {
 
             User newUser = userService.register(username, email, password);
             showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + newUser.getUsername() + "!");
+
+            PlayerService characterService = new PlayerService();
+            com.example.mygame.models.Character character =
+                    characterService.getCharacterForUser(userService.getUserId(newUser));
+
+            Session.setCurrentCharacter(character);
+
             if (pageSwitch != null && registerPage != null) {
                 pageSwitch.goGame(registerPage);
             }

@@ -13,20 +13,15 @@ public class GameObjectDAO extends BaseDAO<GameObject> {
         return new GameObject(
                 rs.getInt("id"),
                 rs.getString("Name"),
-                rs.getString("Type"),
-                rs.getInt("x"),
-                rs.getInt("y")
+                rs.getString("Type")
         );
     }
 
     public int addGameObject(GameObject gameObject) {
-        String query = "INSERT INTO \"GameObjectAbstract\" (\"id\", \"Name\", \"Type\", \"x\", \"y\") VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO \"GameObject\" (\"Name\", \"Type\") VALUES (?, ?)";
         return executeUpdate(query,
-                gameObject.getId(),
                 gameObject.getName(),
-                gameObject.getType(),
-                gameObject.getX(),
-                gameObject.getY());
+                gameObject.getType() != null ? gameObject.getType() : null);
     }
 
     public int deleteGameObject(Long id) {
@@ -35,18 +30,16 @@ public class GameObjectDAO extends BaseDAO<GameObject> {
     }
 
     public GameObject getGameObjectById(Long id) {
-        String query = "SELECT * FROM \"GameObjectAbstract\" WHERE \"id\" = ?";
-        List<GameObject> gameObjects = findAll(query, id);
-        return gameObjects.isEmpty() ? null : gameObjects.get(0);
+        String query = "SELECT * FROM \"GameObject\" WHERE \"id\" = ?";
+        List<GameObject> list = findAll(query, id);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     public int updateGameObject(GameObject gameObject) {
-        String query = "UPDATE \"GameObjectAbstract\" SET \"Name\" = ?, \"Type\" = ?, \"x\" = ?, \"y\" = ? WHERE \"id\" = ?";
+        String query = "UPDATE \"GameObjectAbstract\" SET \"Name\" = ?, \"Type\" = ? WHERE \"id\" = ?";
         return executeUpdate(query,
                 gameObject.getName(),
                 gameObject.getType(),
-                gameObject.getX(),
-                gameObject.getY(),
                 gameObject.getId());
     }
 

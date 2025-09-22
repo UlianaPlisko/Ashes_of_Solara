@@ -75,6 +75,12 @@ public class CharacterDAO extends BaseDAO<Character> {
         return characters.isEmpty() ? null : characters.get(0);
     }
 
+    public Character getCharacterByUserId(Long id) {
+        String query = "SELECT * FROM \"Character\" WHERE \"User_id\" = ?";
+        List<Character> characters = findAll(query, id);
+        return characters.isEmpty() ? null : characters.get(0);
+    }
+
     /**
      * Updates a character by its ID.
      *

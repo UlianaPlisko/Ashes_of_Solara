@@ -15,19 +15,25 @@ public class InventoryDAO extends BaseDAO<Inventory> {
                 rs.getInt("Character_id"),
                 rs.getInt("Resource_id"),
                 rs.getInt("Tool_id"),
-                rs.getInt("Meal_id"),
-                rs.getInt("Quantity")
+                rs.getInt("Quantity"),
+                rs.getInt("current_uses")
         );
     }
 
     public int addInventory(Inventory inventory) {
-        String query = "INSERT INTO \"Inventory\" (\"Character_id\", \"Resource_id\", \"Tool_id\", \"Meal_id\", \"Quantity\") VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO \"Inventory\" (\"Character_id\", \"Resource_id\", \"Tool_id\", \"Quantity\", \"current_uses\") " +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        // Convert 0 (unused ID) to null to satisfy FK + CHECK constraints
+        Long resourceId = (inventory.getResourceId() == 0) ? null : Long.valueOf(inventory.getResourceId());
+        Long toolId     = (inventory.getToolId() == 0) ? null : Long.valueOf(inventory.getToolId());
+
         return executeUpdate(query,
                 inventory.getCharacterId(),
-                inventory.getResourceId(),
-                inventory.getToolId(),
-                inventory.getMealId(),
-                inventory.getQuantity());
+                resourceId,
+                toolId,
+                inventory.getQuantity(),
+                100); // current_uses
     }
 
     public int deleteInventory(Long id) {
@@ -42,13 +48,17 @@ public class InventoryDAO extends BaseDAO<Inventory> {
     }
 
     public int updateInventory(Inventory inventory) {
-        String query = "UPDATE \"Inventory\" SET \"Character_id\" = ?, \"Resource_id\" = ?, \"Tool_id\" = ?, \"Meal_id\" = ?, \"Quantity\" = ? WHERE \"id\" = ?";
+        String query = "UPDATE \"Inventory\" SET \"Character_id\" = ?, \"Resource_id\" = ?, \"Tool_id\" = ?, \"Quantity\" = ?, \"current_uses\" = ? WHERE \"id\" = ?";
+
+        Long resourceId = (inventory.getResourceId() == 0) ? null : Long.valueOf(inventory.getResourceId());
+        Long toolId     = (inventory.getToolId() == 0) ? null : Long.valueOf(inventory.getToolId());
+
         return executeUpdate(query,
                 inventory.getCharacterId(),
-                inventory.getResourceId(),
-                inventory.getToolId(),
-                inventory.getMealId(),
+                resourceId,
+                toolId,
                 inventory.getQuantity(),
+                inventory.getCurrent_uses(),
                 inventory.getId());
     }
 

@@ -12,7 +12,7 @@ import java.sql.*;
  */
 @Getter
 public class DatabaseWrapper {
-    private static final String URL = "jdbc:postgresql://localhost:5432/MyGame";
+    private static final String URL = "jdbc:postgresql://localhost:5432/game";
     private static final String USER = "postgres";
     private static final String PASSWORD = "26160317";
 
